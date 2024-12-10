@@ -1,0 +1,100 @@
+.HRContainer {
+    height: 12rem;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.aiPrediction, .hr{
+    border: 1px solid var(--borders);
+    background-color: var(--container-background);
+}
+
+.aiPrediction {
+    grid-column: span 5;
+    grid-row: span 4;
+    background-color: var(--container-background);
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.hr {
+    grid-column: span 5;
+    grid-row: span 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-left: 1rem;
+    border-radius: 10px;
+}
+
+.hr h3 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.initialColor {
+    position: absolute;
+    height: 100%;
+    width: 4%;
+    left: 0;
+}
+
+.bar {
+    width: 50%;
+    background-color: var(--text);
+    height: 1rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.percentage {
+    height: 100%;
+}
+
+.label, .percentageText {
+    padding: 0px;
+    margin: 0px;
+    width: 13%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0.2rem;
+    color: var(--text);
+}
+
+@media (max-width: 1024px) {
+    .HRContainer {
+        height: 10rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .bar {
+        height: 0.6rem;
+    }
+}
+
+@media (max-width: 414px) {
+    .bar {
+        width: 40%;
+        height: 0.6rem;
+    }
+
+    .HRContainer {
+        height: 9rem;
+    }
+
+    .label, .percentageText {
+        font-size: 0.9rem;
+        padding-bottom: 0rem;
+    }
+}

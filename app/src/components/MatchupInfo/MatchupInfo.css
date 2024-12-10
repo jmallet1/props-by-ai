@@ -1,0 +1,37 @@
+.MatchupBox {
+    background-color: #651fff;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid rgb(218, 218, 218);
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 13px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.MatchupChild {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+}
+
+.MatchupChild p, .MatchupChild h1 {
+    margin: 0px;
+    padding: 0px;
+}
+
+.MatchupChild h1{
+    font-size: 3em;
+    line-height: 40px;
+    margin-bottom: 9px;
+}
+
+.MatchupChild p {
+    line-height: 12px;
+}

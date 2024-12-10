@@ -1,0 +1,77 @@
+.prediction {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.title {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 500;
+    color: var(--secondary-text);
+}
+
+.decision p {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: var(--text);
+}
+
+.title, .prediction, .decision p {
+    padding: 0px;
+    margin: 0px;
+    line-height: 1;
+}
+
+.decisionIcon {
+    width: clamp(1.2rem, 3vw, 2rem);
+    margin-right: 0.3rem;
+}
+
+.predictionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    width: 91%;
+    height: 85%;
+    background-color: var(--container-background);
+}
+
+.outputContainer {
+    display: flex;
+    align-items: baseline;
+    margin-top: 0.5rem;
+}
+
+.outputContainer p {
+    font-size:  clamp(1rem, 3vw, 2rem);
+    margin: 0px 0px 0px 10px;
+    padding: 0px;
+    color: var(--text);
+}
+
+.decision {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.logoIcon {
+    width: 100%;
+}
+
+.logoIconContainer {
+    position: absolute;
+    right: 0;
+    background-color: var(--text);
+    padding: 10px;
+    border-radius: 10px;
+    width: 10%;
+    height: 1;
+}
+
+@media (max-width: 414px) {
+    .logoIconContainer {
+        padding: 5px;
+    }
+}

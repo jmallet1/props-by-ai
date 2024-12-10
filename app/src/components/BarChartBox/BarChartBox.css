@@ -1,0 +1,16 @@
+.container {
+    border-radius: 20px;
+    background-color: var(--container-background);
+    padding: 2%;
+    height: 17rem;
+    border: 1px solid var(--borders);
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
+
+@media (max-width: 414px) {
+    .container {
+        height: 11rem;
+    }
+}

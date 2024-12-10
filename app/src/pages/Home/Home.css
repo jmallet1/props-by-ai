@@ -1,0 +1,15 @@
+.big {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.HomeLogo {
+    width: 400px;
+    padding: 0px;
+    margin: 0px;
+}

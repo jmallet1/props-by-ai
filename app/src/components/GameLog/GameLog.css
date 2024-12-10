@@ -1,0 +1,74 @@
+.GameLogContainer {
+    max-width: 100%;
+    background-color: var(--container-background);
+    border: 1px solid var(--borders);
+    max-height: 20rem;
+    border-radius: 20px;
+    margin-top: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.GameLogTitle h1 {
+    margin: 0px;
+    padding: 0px;
+    line-height: 30px;
+    margin-bottom: 3%;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    color: var(--text);
+}
+
+.GameLogTable, .ScrollableTable {
+    width: 100%;
+}
+
+.GameLogTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.ScrollableTable {
+    overflow: auto;
+    flex-grow: 1;
+}
+
+.HeadersRow {
+    background-color: #651fff;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 8px;
+}
+
+.HeadersRow th, .DataRow td {
+    flex: 1;
+    text-align: center;
+    padding: 0.4rem;
+    font-size: clamp(0.5rem, 2.5vw, 1rem);
+    color: var(--text);
+}
+
+.DataRow {
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid var(--text);
+}
+
+.DataRow:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 500px) {
+    .DataRow td {
+        padding: 0.6rem 0.2rem;
+    }
+
+    .HeadersRow th {
+        padding: 0.3rem 0.2rem;
+    }
+
+    .GameLogContainer {
+        max-height: 16rem;
+    }
+}

@@ -1,0 +1,93 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../../../assets/fonts/Lato-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.search-box-home, .search-input-home, .suggestions-list-home {
+  box-sizing: border-box;
+}
+
+.search-box-home {
+    position: relative;
+    width: 600px;
+    font-family: 'Lato';
+}
+
+.search-input-home:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Adds a shadow to indicate focus */
+}
+
+.search-input-home:focus {
+  border-color: #007BFF; /* Your custom border color */
+  outline: none; /* Removes the default outline */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Adds a shadow to indicate focus */
+}
+
+/* For webkit-based browsers (like Chrome, Safari) */
+.search-input-home:focus {
+  outline: none;
+  -webkit-appearance: none; /* Optional for removing other default webkit styles */
+}
+
+/* For Firefox */
+.search-input-home:-moz-focusring {
+  outline: none;
+}
+
+.search-icon-home {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #fff;
+}
+  
+.search-input-home {
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  width: 100%;
+  border: 1px solid rgb(218, 218, 218);
+}
+
+.suggestions-list-home {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  margin-top: 5px;
+  list-style: none;
+  padding: 0;
+}
+
+.suggestions-list-home li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list-home li:hover {
+  background-color: #f0f0f0;
+}
+
+.search-input-home::-webkit-input-placeholder {
+  font-family: 'Lato';
+}
+
+.search-input-home:-ms-input-placeholder {
+  font-family: 'Lato';
+}
+
+.search-input-home:-moz-placeholder {
+  font-family: 'Lato';
+}
+
+.search-input-home::-moz-placeholder {
+  font-family: 'Lato';
+}
+

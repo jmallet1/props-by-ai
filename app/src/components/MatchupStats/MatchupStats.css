@@ -1,0 +1,75 @@
+.DonutContainer {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    width: 100%;
+}
+
+.DonutTitleContainer {
+    height: 20%;
+    margin-top: 0.7rem;
+}
+
+.DonutTitle {
+    padding: 0px;
+    margin: 0px;
+    font-size: clamp(0.5rem, 2vw, 1.1rem);
+    color: var(--text);
+}
+
+.DonutTextContainer {
+    display: flex;
+    gap: 0px;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    padding: 0.6rem 0rem 0.6rem 1.3rem;
+}
+
+.DonutGraph {
+    width: 40%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5rem;
+}
+
+.ModernDonut {
+    width: 50%;
+    height: 9rem;
+    border: 1px solid var(--borders);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    background-color: var(--container-background);
+}
+
+.Number {
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--text);
+}
+
+.NumberContainer {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 414px) {
+    .DonutGraph {
+        height: fit-content;
+        position: absolute;
+        top: 0.6rem;
+        right: 0rem;
+        width: 20%;
+        aspect-ratio: 1/1;
+    }
+
+    .ModernDonut {
+        position: relative;
+        height: 6rem;
+    }
+}

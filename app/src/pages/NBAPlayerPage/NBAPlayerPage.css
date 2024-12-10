@@ -1,0 +1,45 @@
+:root {
+    --sidebar-width: 15%;
+    --central-column-width: 45%;
+}
+
+.parentContainer {
+    margin-top: 4.5rem;
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.sidebar {
+    min-width: var(--sidebar-width);
+    position: fixed;
+    height: 65vh;
+    left: calc(((100% - var(--central-column-width)) / 2) - var(--sidebar-width) - 15px);
+    top: 4.5rem;
+}
+
+.middle {
+    width: var(--central-column-width);
+    margin: 0px 1rem 0px 1rem;
+    height: 100%;
+}
+
+@media (min-width: 1024px) and (max-width: 1500px) {
+    .middle {
+        width: 60%;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+      display: none; /* Hide sidebars when viewport is smaller than 768px */
+    }
+
+    .middle {
+        width: 97%;
+    }
+}
