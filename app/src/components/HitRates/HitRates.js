@@ -6,7 +6,7 @@ import './HitRates.css';
 function getColor(hr){
     if(hr > 50)
         return '#4caf50';
-    else if(hr == -1)
+    else if(hr === -1)
         return '#F9A825';
     else if(hr < 50)
         return '#f44336';
@@ -15,7 +15,7 @@ function getColor(hr){
 }
 
 function getNumber(hr){
-    if(hr == 'N/A' || hr == -1)
+    if(hr === 'N/A' || hr === -1)
         return -1;
     else
         return hr.replace("%","");
@@ -32,16 +32,16 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
     for(let i=0; i < HRData.length; i++){
         let currentLabel = HRData[i][0];
         let currentPercentage = HRData[i][1] + '%';
-        if(HRData[i][1] == -1){
+        if(HRData[i][1] === -1){
             currentPercentage = 'N/A'
         }
-        if(currentLabel == 'h2h'){
+        if(currentLabel === 'h2h'){
             h2h_hr = currentPercentage;
-        } else if(currentLabel == 'last_5'){
+        } else if(currentLabel === 'last_5'){
             l5_hr = currentPercentage;
-        } else if(currentLabel == 'last_20'){
+        } else if(currentLabel === 'last_20'){
             l20_hr = currentPercentage;
-        } else if(currentLabel == 'szn'){
+        } else if(currentLabel === 'szn'){
             szn_hr = currentPercentage;
         }
     }
@@ -61,7 +61,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
                 <div className='initialColor' style={{ backgroundColor: getColor(h2h_number)}}></div>
                 <div className='label'>H2H</div>
                 <div className='bar'>
-                    <div className='percentage' style={{ width: `${h2h_number == -1 ? 100 : h2h_number}%`, backgroundColor: getColor(h2h_number)}}></div>
+                    <div className='percentage' style={{ width: `${h2h_number === -1 ? 100 : h2h_number}%`, backgroundColor: getColor(h2h_number)}}></div>
                 </div>
                 <div className='percentageText'>{h2h_hr}</div>
             </div>
@@ -77,7 +77,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
                 <div className='initialColor' style={{ backgroundColor: getColor(l20_number)}}></div>
                 <div className='label'>L20</div>
                 <div className='bar'>
-                    <div className='percentage'  style={{ width: `${l20_number == -1 ? 100 : l20_number}%`, backgroundColor: getColor(l20_number)}}></div>
+                    <div className='percentage'  style={{ width: `${l20_number === -1 ? 100 : l20_number}%`, backgroundColor: getColor(l20_number)}}></div>
                 </div>
                 <div className='percentageText'>{l20_hr}</div>
             </div>

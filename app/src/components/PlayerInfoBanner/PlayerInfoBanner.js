@@ -1,6 +1,5 @@
 import './PlayerInfoBanner.css';
-import playerPic from '../../assets/pictures/fvv.png';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const PlayerInfoBanner = ({matchup, playerInfo, seasonAvg, playerId}) => {
 
@@ -14,7 +13,7 @@ const PlayerInfoBanner = ({matchup, playerInfo, seasonAvg, playerId}) => {
           <div className='PlayerInfoContainer'>
             <div className='PlayerPicAndName'>
               <div className='PlayerHeadshot'>
-                <img src={img_url} />
+                <img src={img_url} alt="player-pic"/>
               </div>
               <div className="PlayerDetails">
                   <div className='MatchupInfo'>

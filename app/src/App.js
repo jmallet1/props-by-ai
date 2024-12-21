@@ -4,7 +4,7 @@ import NotFound from './pages/NotFound/NotFound';
 import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
 

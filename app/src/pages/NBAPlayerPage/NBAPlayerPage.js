@@ -26,7 +26,6 @@ function NBAPlayerPage() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [type, setType] = useState("PTS"); // Initialize barData as an empty array
     const [seasonAvg, setSeasonAvg] = useState([]); // Initialize barData as an empty array
-    const [seasonAvgStat, setSeasonAvgStat] = useState(0); // Initialize barData as an empty array
     const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); // Initialize barData as an empty array
     const [availableProps, setAvailableProps] = useState([]); // Initialize barData as an empty array
 
@@ -49,7 +48,7 @@ function NBAPlayerPage() {
 
     useEffect(() => {
         fetchData(); // Call fetchData when the component mounts
-    }, [playerId]);
+    }, [playerIdCleaned]);
 
     // Update barData when playerData is fetched
     useEffect(() => {
@@ -61,8 +60,7 @@ function NBAPlayerPage() {
             }
 
             if(playerData.szn_avgs){
-                setSeasonAvg(playerData.szn_avgs)
-                setSeasonAvgStat(playerData.szn_avgs[type.toLowerCase()])
+                setSeasonAvg(playerData.szn_avgs);
             }
             if (playerData.hrs)
                 setHRData(playerData.hrs[playerData.available_props[0]]); // Set barData based on fetched playerData

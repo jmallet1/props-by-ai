@@ -6,10 +6,6 @@ import HomeLogo from '../../assets/pictures/home-logo.png';
 
 function Home({ playerList }) {
 
-    const playerNames = [
-        { id: 2544, name: 'LeBron James'}
-    ]; // List of player names
-
     return (
         <div className='big'>
             <img className='HomeLogo' src={HomeLogo} alt='HomeLogo'/>

@@ -29,11 +29,11 @@ const ButtonsAndGraphs = ({ type, matchupDifficulty, matchup, avgLine, statPerGa
                         <h3 className='DonutTitle'>{type.toUpperCase()} Per Game VS {matchup}</h3>
                     </div>
                     <div className='NumberContainer'>
-                        <h1 className='Number'>{statPerGame == -1 ? 'N/A' : statPerGame}</h1>
+                        <h1 className='Number'>{statPerGame === -1 ? 'N/A' : statPerGame}</h1>
                     </div>
                 </div>
                 <div className='DonutGraph'>
-                    <DonutChart overData={statPerGame == -1 ? 0 : statPerGame} underData={avgLine}/>
+                    <DonutChart overData={statPerGame === -1 ? 0 : statPerGame} underData={avgLine}/>
                 </div>
 
             </div>

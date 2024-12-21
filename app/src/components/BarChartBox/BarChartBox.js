@@ -8,11 +8,9 @@ import {
     BarElement, 
     Title,
     Tooltip,
-    Legend,
-    plugins
+    Legend
 } from "chart.js";
 import './BarChartBox.css'
-import { color } from "chart.js/helpers";
 
 ChartJS.register(
     CategoryScale, 

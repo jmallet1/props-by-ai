@@ -19,7 +19,7 @@ export const RelatedNews = ({highLowLines, injuries}) => {
                                 <tr key={index} className='InjuryRow'>
                                     <td>
                                         <div className='Headshot'>
-                                            <img src={headshot} />
+                                            <img src={headshot} alt="head"/>
                                         </div>
                                     </td>
                                     <td className='NameAndInjuryData'>
@@ -42,7 +42,7 @@ export const RelatedNews = ({highLowLines, injuries}) => {
             <div className='OddsMasterContainer'>
                 <div className='OddsOverContainer'>
                     <h3 className='OddsTitle'>Highest Line</h3>
-                    <img className='StockImage' src={StockUp} />
+                    <img className='StockImage' src={StockUp} alt='high-line'/>
                     <div className='OddsText'>
                         <h1>{highLowLines.high_line}</h1>
                         <a href='https://www.draftkings.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.high_line_sportsbook}</h3></a>
@@ -50,7 +50,7 @@ export const RelatedNews = ({highLowLines, injuries}) => {
                 </div>
                 <div className='OddsUnderContainer'>
                     <h3 className='OddsTitle'>Lowest Line</h3>
-                    <img className='StockImage' src={StockDown} />
+                    <img className='StockImage' src={StockDown} alt='low-line'/>
                     <div className='OddsText'>
                         <h1>{highLowLines.low_line}</h1>
                         <a href='https://www.fanduel.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.low_line_sportsbook}</h3></a>
