@@ -106,7 +106,6 @@ function NBAPlayerPage() {
         setAvgLine(playerData.prop_lines.avg_lines[type]);
         setPrediction(playerData.prop_lines[type]['prediction']);
         setType(type);
-        setSeasonAvgStat(playerData.szn_avgs[type]);
     };
 
     useEffect(() => {
