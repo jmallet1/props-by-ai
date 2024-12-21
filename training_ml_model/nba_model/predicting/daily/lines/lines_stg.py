@@ -2,13 +2,14 @@ import requests
 from pyspark.sql import SparkSession
 from nba_model.utils.etl import load
 from pyspark.sql.functions import col, abs
+import os
 
 # Initialize Spark session
 spark = SparkSession.builder \
     .appName("Load JSON to Postgres") \
     .getOrCreate()
 
-api_key = "7c62197633aba9836307dceefcca23ba"
+api_key = os.getenv('ODDS_API_KEY')
 output_table = "nba.lines_stg"
 
 master_line_list = []

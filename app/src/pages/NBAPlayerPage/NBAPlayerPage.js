@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './NBAPlayerPage.css';
 import PlayerInfoBanner from '../../components/PlayerInfoBanner/PlayerInfoBanner';
 import HitRates from '../../components/HitRates/HitRates';
@@ -9,8 +10,6 @@ import GameLog from '../../components/GameLog/GameLog';
 import ButtonBox from '../../components/PropButtons/ButtonBox';
 
 function NBAPlayerPage() {
-    const apiKey = 'YOUR API KEY HERE';
-
     // Declare a state variable to store the fetched data
     const [playerData, setPlayerData] = useState(null);
     const [barData, setBarData] = useState([]); // Initialize barData as an empty array
@@ -29,14 +28,16 @@ function NBAPlayerPage() {
     const [seasonAvg, setSeasonAvg] = useState([]); // Initialize barData as an empty array
     const [seasonAvgStat, setSeasonAvgStat] = useState(0); // Initialize barData as an empty array
     const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); // Initialize barData as an empty array
+    const [availableProps, setAvailableProps] = useState([]); // Initialize barData as an empty array
 
-    const playerId = 2544;
+    const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
+    const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
 
     // Fetch data from the API
     const fetchData = async () => {
         
         try {
-            const response = await fetch(`YOUR API GATEWAY ENDPOINT HERE`);
+            const response = await fetch(`${process.env.AWS_API_CALL_GET_PLAYER + playerIdCleaned}`);
             const data = await response.json();
             
             // Set the fetched data in the state
@@ -48,14 +49,14 @@ function NBAPlayerPage() {
 
     useEffect(() => {
         fetchData(); // Call fetchData when the component mounts
-    }, []);
+    }, [playerId]);
 
     // Update barData when playerData is fetched
     useEffect(() => {
         if (playerData){
 
             if (playerData.game_log_10){
-                setBarData(playerData.game_log_10.pts); // Set barData based on fetched playerData
+                setBarData(playerData.game_log_10[playerData.available_props[0]]); // Set barData based on fetched playerData
                 setBarLabels(playerData.game_log_10.dates);
             }
 
@@ -64,7 +65,7 @@ function NBAPlayerPage() {
                 setSeasonAvgStat(playerData.szn_avgs[type.toLowerCase()])
             }
             if (playerData.hrs)
-                setHRData(playerData.hrs.pts); // Set barData based on fetched playerData
+                setHRData(playerData.hrs[playerData.available_props[0]]); // Set barData based on fetched playerData
 
             if (playerData.matchup_difficulty_ranks){
                 setMatchupDifficulty(playerData.matchup_difficulty_ranks.pts_rank);
@@ -72,15 +73,20 @@ function NBAPlayerPage() {
             }
 
             if(playerData.matchup_avgs)
-                setStatPerGame(playerData.matchup_avgs.pts);
+                setStatPerGame(playerData.matchup_avgs[playerData.available_props[0]]);
 
             if(playerData.game_log_szn)
                 setGameLog(playerData.game_log_szn);
 
             if(playerData.prop_lines){
-                setHighLowLines(playerData.prop_lines['pts']);
-                setAvgLine(playerData.prop_lines.avg_lines['pts']);
-                setPrediction(playerData.prop_lines.pts.prediction)
+                setHighLowLines(playerData.prop_lines[playerData.available_props[0]]);
+                setAvgLine(playerData.prop_lines.avg_lines[playerData.available_props[0]]);
+                setPrediction(playerData.prop_lines[playerData.available_props[0]]['prediction']);
+            }
+
+            if(playerData.available_props){
+                setType(playerData.available_props[0])
+                setAvailableProps(playerData.available_props);
             }
 
             if(playerData.injury_report)
@@ -123,11 +129,11 @@ function NBAPlayerPage() {
     return (
         <div className='parentContainer'>
             <div className='sidebar'>
-                <ButtonBox updateData={updateData} />
+                {availableProps.length > 0 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
             </div>
             <div className='middle'>
-                <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId}/>
-                {windowWidth < 1500 && <ButtonBox updateData={updateData} />}
+                <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
+                {windowWidth < 1500 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
                 <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData}/>
                 <BarChartBox data={barData} max_value={Math.max(...barData)} avgLine={avgLine} x_labels={barLabels} />
                 <MatchupStats type={type} matchupDifficulty={matchupDifficulty} matchup={matchup} avgLine={avgLine} statPerGame={statPerGame.toFixed(1)}/>
