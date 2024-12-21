@@ -1,14 +1,13 @@
-name: Deploy React App to S3
+name: Build and Deploy React App
 
 on:
   push:
     branches:
-      - main  # Adjust this to your deployment branch
+      - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -16,23 +15,24 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Use the Node.js version your app requires
+        node-version: '18'
 
-    - name: Install Dependencies
+    - name: Navigate to React App and Install Dependencies
+      working-directory: ./app
       run: npm install
 
     - name: Build React App
-      env:
-        REACT_APP_API_KEY: ${{ secrets.MY_SECRET_KEY }}
+      working-directory: ./app
       run: npm run build
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
-        args: --acl public-read --follow-symlinks --delete
+        args: --delete
       env:
-        AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-        SOURCE_DIR: 'build'
+        AWS_API_CALL_SEARCH_LIST: ${{ secrets.AWS_API_CALL_SEARCH_LIST }}
+        AWS_API_CALL_GET_PLAYER: ${{ secrets.AWS_API_CALL_GET_PLAYER }}
+        SOURCE_DIR: ./app/build
