@@ -2,7 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 //register the elements for the Doughnut Chart. More info here: https://www.chartjs.org/docs/latest/getting-started/integration.html
-import { Chart as ChartJS, ArcElement, Tooltip, plugins } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 ChartJS.register(ArcElement, Tooltip);
 
 const DonutChart = ({overData, underData}) => {

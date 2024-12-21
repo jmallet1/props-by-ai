@@ -38,7 +38,7 @@ const SearchBar = ({ playerList }) => {
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <img src={searchIcon} className='search-icon' />
+      <img src={searchIcon} className='search-icon' alt='search'/>
       {showSuggestions && (
         <ul className="suggestions-list">
           {filteredPlayers.map((player, index) => (

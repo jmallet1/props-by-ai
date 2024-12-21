@@ -27,11 +27,11 @@ const AIPrediction = ({prediction, type, avgLine}) => {
                 <p>{type.toUpperCase()}</p>
             </div>
             <div className='decision'>
-                <img className='decisionIcon' src={predictionGraphics.icon} />
+                <img className='decisionIcon' src={predictionGraphics.icon} alt="over-under"/>
                 <p>{predictionGraphics.text}</p>
             </div>
             <div className='logoIconContainer'>
-                <img src={logo} className='logoIcon' />
+                <img src={logo} className='logoIcon' alt="pba-logo"/>
             </div>
         </div>
     );
