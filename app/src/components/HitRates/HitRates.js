@@ -61,7 +61,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
                 <div className='initialColor' style={{ backgroundColor: getColor(h2h_number)}}></div>
                 <div className='label'>H2H</div>
                 <div className='bar'>
-                    <div className='percentage' style={{ width: `${h2h_number}%`, backgroundColor: getColor(h2h_number)}}></div>
+                    <div className='percentage' style={{ width: `${h2h_number == -1 ? 100 : h2h_number}%`, backgroundColor: getColor(h2h_number)}}></div>
                 </div>
                 <div className='percentageText'>{h2h_hr}</div>
             </div>
@@ -77,7 +77,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
                 <div className='initialColor' style={{ backgroundColor: getColor(l20_number)}}></div>
                 <div className='label'>L20</div>
                 <div className='bar'>
-                    <div className='percentage'  style={{ width: `${l20_number}%`, backgroundColor: getColor(l20_number)}}></div>
+                    <div className='percentage'  style={{ width: `${l20_number == -1 ? 100 : l20_number}%`, backgroundColor: getColor(l20_number)}}></div>
                 </div>
                 <div className='percentageText'>{l20_hr}</div>
             </div>

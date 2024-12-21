@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './SearchBar.css'; // Add necessary styles here
 import searchIcon from '../../assets/pictures/search.png';
 
-const SearchBar = ({ players }) => {
+const SearchBar = ({ playerList }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPlayers, setFilteredPlayers] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -13,8 +13,8 @@ const SearchBar = ({ players }) => {
     const term = e.target.value;
     setSearchTerm(term);
     if (term.length > 0) {
-      const suggestions = players.filter(player =>
-        player.toLowerCase().includes(term.toLowerCase())
+      const suggestions = playerList.filter(player =>
+        player.name.toLowerCase().includes(term.toLowerCase())
       );
       setFilteredPlayers(suggestions);
       setShowSuggestions(true);
@@ -26,7 +26,7 @@ const SearchBar = ({ players }) => {
   const handlePlayerClick = (player) => {
     setSearchTerm('');
     setShowSuggestions(false);
-    navigate(`/player/${player.replace(/\s+/g, '-').toLowerCase()}`);
+    navigate(`/player/${player.id}`);
   };
 
   return (
@@ -43,7 +43,7 @@ const SearchBar = ({ players }) => {
         <ul className="suggestions-list">
           {filteredPlayers.map((player, index) => (
             <li key={index} onClick={() => handlePlayerClick(player)}>
-              {player}
+              {player.name}
             </li>
           ))}
         </ul>

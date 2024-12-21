@@ -4,14 +4,16 @@ import './Home.css';
 import SearchBar from './SearchBarHome/SearchBarHome';
 import HomeLogo from '../../assets/pictures/home-logo.png';
 
-function Home() {
+function Home({ playerList }) {
 
-  const playerNames = ['Player 1', 'Player 2', 'Player 3']; // List of player names
+    const playerNames = [
+        { id: 2544, name: 'LeBron James'}
+    ]; // List of player names
 
     return (
         <div className='big'>
             <img className='HomeLogo' src={HomeLogo} alt='HomeLogo'/>
-            <SearchBar players={playerNames} />
+            <SearchBar playerList={playerList} />
         </div>
     );
 }

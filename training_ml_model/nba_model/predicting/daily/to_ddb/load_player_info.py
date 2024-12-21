@@ -10,8 +10,8 @@ spark = SparkSession.builder \
     .appName("Load game log data to PostgreSQL") \
     .getOrCreate()
 
-input_table = "predicting.player_game_logs_raw"
-output_table = "nba_player_data_2024"
+input_table = "nba.player_lkp"
+output_table = "nba_player_info"
 
 # Function to write rows in batches
 def batch_write_to_dynamodb(df, table):
@@ -40,11 +40,11 @@ def recreate_ddb_table():
         TableName=output_table,
         KeySchema=[
             {'AttributeName': 'player_id', 'KeyType': 'HASH'},  # Partition key
-            {'AttributeName': 'date', 'KeyType': 'RANGE'}       # Sort key
+            {'AttributeName': 'player_name', 'KeyType': 'RANGE'}       # Sort key
         ],
         AttributeDefinitions=[
             {'AttributeName': 'player_id', 'AttributeType': 'S'},  # String type for player_id
-            {'AttributeName': 'date', 'AttributeType': 'N'}        # Number type for date
+            {'AttributeName': 'player_name', 'AttributeType': 'S'}        # Number type for date
         ],
         ProvisionedThroughput={
             'ReadCapacityUnits': 5,
@@ -62,7 +62,6 @@ def transform(df: DataFrame):
 
     # Change data types of 2 columns
     df = df.withColumn("player_id", df["player_id"].cast(StringType()))
-    df = df.withColumn("date", df["date"].cast(IntegerType()))
 
     return df
 
@@ -81,20 +80,9 @@ if __name__ == "__main__":
     query = f"""
     SELECT
         player_id,
-        TO_CHAR(game_date, 'YYYYMMDD') as date,
-        ast,
-        blk,
-        CASE
-            WHEN away_flag = 1 THEN '@' || matchup
-            ELSE matchup     
-        END as matchup,
-        min,
         player_name,
-        pts,
-        reb,
-        stl,
-        team,
-        tov as to
+        position,
+        team
     FROM {input_table}
     """
 
@@ -105,3 +93,10 @@ if __name__ == "__main__":
 
     # Stop Spark session
     spark.stop()
+
+    # TODO:
+    # Fetch list of player names and allow users to search it in the autocomplete react bar
+    # Pass the player id from the search page to the player page
+    # Set up Airflow
+    # Launch to s3
+    # Final testing

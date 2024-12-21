@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './ButtonBox.css';
 
-const ButtonBox = ({ updateData }) => {
+const ButtonBox = ({ availableProps, updateData}) => {
+
   const [selectedProp, setSelectedProp] = useState(0);
 
   const handlePropClick = (index, type) => {
@@ -10,16 +11,22 @@ const ButtonBox = ({ updateData }) => {
   };
 
   return (
-    <>
     <div className="propButtonBox">
-      <button onClick={() => handlePropClick(0, 'pts')} className={selectedProp === 0 ? 'active' : ''}>Points</button>
-      <button onClick={() => handlePropClick(1, 'reb')} className={selectedProp === 1 ? 'active' : ''}>Rebounds</button>
-      <button onClick={() => handlePropClick(2, 'ast')} className={selectedProp === 2 ? 'active' : ''}>Assists</button>
-      <button onClick={() => handlePropClick(3, 'blk')} className={selectedProp === 3 ? 'active' : ''}>Blocks</button>
-      <button onClick={() => handlePropClick(4, 'stl')} className={selectedProp === 4 ? 'active' : ''}>Steals</button>
-      <button onClick={() => handlePropClick(5, 'to')} className={selectedProp === 5 ? 'active' : ''}>Turnovers</button>
+      {availableProps.map((type, index) => (
+        <button
+          key={type} // Use the prop type as a unique key
+          onClick={() => handlePropClick(index, type)}
+          className={selectedProp === index ? 'active' : ''}
+        >
+          {type === 'pts' && 'Points'}
+          {type === 'reb' && 'Rebounds'}
+          {type === 'ast' && 'Assists'}
+          {type === 'blk' && 'Blocks'}
+          {type === 'stl' && 'Steals'}
+          {type === 'to' && 'Turnovers'}
+        </button>
+      ))}
     </div>
-    </>
   );
 };
 

@@ -69,7 +69,7 @@ if __name__ == "__main__":
         .appName("Load team season data to PostgreSQL") \
         .getOrCreate()
 
-    input_table = "nba.lines_raw"  # Name of the input table in PostgreSQL
+    input_table = "predicting.lines_raw"  # Name of the input table in PostgreSQL
     output_table = "predicting.player_game_logs_stg"  # Name of the output table in PostgreSQL
 
     truncate(output_table)
@@ -79,21 +79,11 @@ if __name__ == "__main__":
         distinct(player_id),
         date as min_date,
         home_team_abbr,
-        away_team_abbr,
-		date_rnk
-    FROM (
-        SELECT 
-            RANK() OVER (PARTITION BY player_id ORDER BY date DESC) AS date_rnk,
-            player_id,
-            date,
-            home_team_abbr,
-            away_team_abbr
-        FROM
-            {input_table}
-    )
+        away_team_abbr
+    FROM
+        {input_table}
     WHERE
-        date_rnk = 1
-        AND player_id IS NOT NULL
+        player_id IS NOT NULL
     """
 
     player_query_result = extract(query=input_query, spark=spark)

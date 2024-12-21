@@ -10,8 +10,8 @@ spark = SparkSession.builder \
     .appName("Load game log data to PostgreSQL") \
     .getOrCreate()
 
-input_table = "predicting.player_game_logs_raw"
-output_table = "nba_player_data_2024"
+input_table = "predicting.predictions_raw"
+output_table = "nba_lines"
 
 # Function to write rows in batches
 def batch_write_to_dynamodb(df, table):
@@ -21,7 +21,7 @@ def batch_write_to_dynamodb(df, table):
             batch.put_item(Item=item)
 
 # Need to delete all data in DDB table
-# Quickest way is to drop and recreate table
+# Quickest way is to drop and recreate table, also supports schema evolution
 def recreate_ddb_table():
 
     dynamodb = boto3.client('dynamodb')
@@ -40,11 +40,11 @@ def recreate_ddb_table():
         TableName=output_table,
         KeySchema=[
             {'AttributeName': 'player_id', 'KeyType': 'HASH'},  # Partition key
-            {'AttributeName': 'date', 'KeyType': 'RANGE'}       # Sort key
+            {'AttributeName': 'prop_type', 'KeyType': 'RANGE'}       # Sort key
         ],
         AttributeDefinitions=[
             {'AttributeName': 'player_id', 'AttributeType': 'S'},  # String type for player_id
-            {'AttributeName': 'date', 'AttributeType': 'N'}        # Number type for date
+            {'AttributeName': 'prop_type', 'AttributeType': 'S'}        # Number type for date
         ],
         ProvisionedThroughput={
             'ReadCapacityUnits': 5,
@@ -81,20 +81,18 @@ if __name__ == "__main__":
     query = f"""
     SELECT
         player_id,
-        TO_CHAR(game_date, 'YYYYMMDD') as date,
-        ast,
-        blk,
-        CASE
-            WHEN away_flag = 1 THEN '@' || matchup
-            ELSE matchup     
-        END as matchup,
-        min,
         player_name,
-        pts,
-        reb,
-        stl,
         team,
-        tov as to
+        prop_type,
+        TO_CHAR(date, 'YYYYMMDD') as date,
+        matchup,
+        ROUND(prediction::NUMERIC, 1)::DECIMAL as prediction,
+        high_line::DECIMAL,
+        high_odds::DECIMAL,
+        high_sportsbook,
+        low_line::DECIMAL,
+        low_odds::DECIMAL,
+        low_sportsbook
     FROM {input_table}
     """
 

@@ -7,7 +7,7 @@ import StockDown from '../../assets/pictures/stock_down.png'
 export const RelatedNews = ({highLowLines, injuries}) => {
     return (
         <div className='RelatedNewsAndOddsContainer'>
-            <div className='RelatedNewsContainer'>
+            {injuries.length > 0 && <div className='RelatedNewsContainer'>
                 <div className='RelatedNewsTitle'>
                     <h1>Related Injury Report</h1>
                 </div>
@@ -38,7 +38,7 @@ export const RelatedNews = ({highLowLines, injuries}) => {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>}
             <div className='OddsMasterContainer'>
                 <div className='OddsOverContainer'>
                     <h3 className='OddsTitle'>Highest Line</h3>

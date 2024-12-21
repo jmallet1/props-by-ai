@@ -1,12 +1,21 @@
 from nba_model.utils.etl import extract, load, transform_prediction_stat
+from pyspark.sql import SparkSession
+
 
 input_table_1 = "predicting.player_game_logs_raw"
-input_table_2 = "predicting.team_defense_raw"
-input_table_3 = "predicting.team_offense_raw"
+input_table_2 = "predicting.lines_raw"
+input_table_3 = "predicting.team_defense_raw"
+input_table_4 = "predicting.team_offense_raw"
 output_table = "predicting.player_tov"
+
+# Initialize Spark session
+spark = SparkSession.builder \
+    .appName("Load team season data to PostgreSQL") \
+    .getOrCreate()
 
 if __name__ == "__main__":
 
+    # Only get the players who have a prop for the day in this type
     query_player_data = f"""
     SELECT
         player_id,
@@ -26,6 +35,11 @@ if __name__ == "__main__":
         away_flag
     FROM 
         {input_table_1}
+	WHERE player_id IN (
+		SELECT DISTINCT player_id
+		FROM {input_table_2}
+		WHERE type = 'tov'
+	)
     """
 
     query_opposition_data = f"""
@@ -42,7 +56,7 @@ if __name__ == "__main__":
         stl::double precision AS opp_stl_per_game,
         pts::double precision AS opp_pts_per_game
     FROM 
-        {input_table_2}
+        {input_table_3}
     """
 
     query_team_data = f"""
@@ -58,13 +72,13 @@ if __name__ == "__main__":
         reb::double precision AS trb_per_game,
         tov::double precision AS tov_per_game
     FROM 
-        {input_table_3}
+        {input_table_4}
     """
 
     # Extract data from each table
-    player_df = extract(query_player_data)
-    opposition_df = extract(query_opposition_data)
-    team_df = extract(query_team_data)
+    player_df = extract(query_player_data, spark=spark)
+    opposition_df = extract(query_opposition_data, spark=spark)
+    team_df = extract(query_team_data, spark=spark)
     
     stats_to_average = ["min", "fgm", "fga", "fg3a", "pf", "tov", "ast", "reb"]
     points_df = transform_prediction_stat(player_df=player_df, opp_df=opposition_df, team_df=team_df, stats_to_average=stats_to_average)

@@ -4,8 +4,6 @@ import React, { useState, useEffect } from 'react';
 
 const PlayerInfoBanner = ({matchup, playerInfo, seasonAvg, playerId}) => {
 
-  console.log(playerId);
-
     const img_url = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerId}.png`;
 
     const playerName = playerInfo.player_name;
