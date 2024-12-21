@@ -32,22 +32,23 @@ function NBAPlayerPage() {
     const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
     const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
 
-    // Fetch data from the API
-    const fetchData = async () => {
-        
-        try {
-            const response = await fetch(`${process.env.AWS_API_CALL_GET_PLAYER + playerIdCleaned}`);
-            const data = await response.json();
-            
-            // Set the fetched data in the state
-            setPlayerData(data);
-        } catch (error) {
-            console.log('Error fetching data for player:', playerId);
-        }
-    };
-
     useEffect(() => {
+
+        // Fetch data from the API
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${process.env.AWS_API_CALL_GET_PLAYER + playerIdCleaned}`);
+                const data = await response.json();
+                
+                // Set the fetched data in the state
+                setPlayerData(data);
+            } catch (error) {
+                console.log('Error fetching data for player:', playerId);
+            }
+        };
+
         fetchData(); // Call fetchData when the component mounts
+
     }, [playerIdCleaned]);
 
     // Update barData when playerData is fetched
