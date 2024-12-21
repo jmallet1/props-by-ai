@@ -43,7 +43,7 @@ function NBAPlayerPage() {
                 // Set the fetched data in the state
                 setPlayerData(data);
             } catch (error) {
-                console.log('Error fetching data for player:', playerId);
+                console.log('Error fetching data for player:', playerIdCleaned);
             }
         };
 
