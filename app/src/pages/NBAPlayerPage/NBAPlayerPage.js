@@ -37,7 +37,7 @@ function NBAPlayerPage() {
         // Fetch data from the API
         const fetchData = async () => {
             try {
-                const response = await fetch(`${process.env.AWS_API_CALL_GET_PLAYER + playerIdCleaned}`);
+                const response = await fetch(`https://l4b9qcolhk.execute-api.us-east-2.amazonaws.com/dev/nba_player?player_id=${playerIdCleaned}`);
                 const data = await response.json();
                 
                 // Set the fetched data in the state

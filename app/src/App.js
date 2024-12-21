@@ -16,7 +16,7 @@ function App() {
         
     try {
       // Call API to get player ids and names
-      const response = await fetch(`${process.env.AWS_API_CALL_SEARCH_LIST}`);
+      const response = await fetch(`https://l4b9qcolhk.execute-api.us-east-2.amazonaws.com/dev/players_with_props`);
       const data = await response.json();
         
       // Set the fetched data in the state
