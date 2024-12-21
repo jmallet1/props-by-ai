@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
+from pyspark.sql.functions import udf
 import boto3
 from pyspark.sql.types import IntegerType, StringType
 from nba_model.utils.etl import extract
@@ -10,8 +11,8 @@ spark = SparkSession.builder \
     .appName("Load game log data to PostgreSQL") \
     .getOrCreate()
 
-input_table = "predicting.player_game_logs_raw"
-output_table = "nba_player_data_2024"
+input_table = "predicting.team_defense_raw"
+output_table = "nba_matchup_difficulty"
 
 # Function to write rows in batches
 def batch_write_to_dynamodb(df, table):
@@ -39,12 +40,10 @@ def recreate_ddb_table():
     dynamodb.create_table(
         TableName=output_table,
         KeySchema=[
-            {'AttributeName': 'player_id', 'KeyType': 'HASH'},  # Partition key
-            {'AttributeName': 'date', 'KeyType': 'RANGE'}       # Sort key
+            {'AttributeName': 'team', 'KeyType': 'HASH'}  # Partition key
         ],
         AttributeDefinitions=[
-            {'AttributeName': 'player_id', 'AttributeType': 'S'},  # String type for player_id
-            {'AttributeName': 'date', 'AttributeType': 'N'}        # Number type for date
+            {'AttributeName': 'team', 'AttributeType': 'S'}  # String type for player_id
         ],
         ProvisionedThroughput={
             'ReadCapacityUnits': 5,
@@ -59,12 +58,39 @@ def recreate_ddb_table():
     print(f"Table {output_table} is now active.")  
 
 def transform(df: DataFrame):
+    df = df.withColumn("team", df["team"].cast(StringType()))
 
-    # Change data types of 2 columns
-    df = df.withColumn("player_id", df["player_id"].cast(StringType()))
-    df = df.withColumn("date", df["date"].cast(IntegerType()))
+    # Register the UDF
+    add_suffix_udf = udf(add_suffix, StringType())
+
+    # Apply the UDF to add the suffix
+    df = df.withColumn("pts_rank", add_suffix_udf(df["pts_rank"])) \
+           .withColumn("reb_rank", add_suffix_udf(df["reb_rank"])) \
+           .withColumn("ast_rank", add_suffix_udf(df["ast_rank"])) \
+           .withColumn("blk_rank", add_suffix_udf(df["blk_rank"])) \
+           .withColumn("stl_rank", add_suffix_udf(df["stl_rank"])) \
+           .withColumn("tov_rank", add_suffix_udf(df["tov_rank"]))
 
     return df
+
+def add_suffix(num):
+    # Handle special cases for 11, 12, 13
+    if 10 <= num % 100 <= 13:
+        suffix = "th"
+    else:
+        # Determine suffix based on last digit
+        last_digit = num % 10
+        if last_digit == 1:
+            suffix = "st"
+        elif last_digit == 2:
+            suffix = "nd"
+        elif last_digit == 3:
+            suffix = "rd"
+        else:
+            suffix = "th"
+    
+    return f"{num}{suffix}"
+
 
 # Load to DDB
 def load(df: DataFrame):
@@ -80,21 +106,13 @@ if __name__ == "__main__":
 
     query = f"""
     SELECT
-        player_id,
-        TO_CHAR(game_date, 'YYYYMMDD') as date,
-        ast,
-        blk,
-        CASE
-            WHEN away_flag = 1 THEN '@' || matchup
-            ELSE matchup     
-        END as matchup,
-        min,
-        player_name,
-        pts,
-        reb,
-        stl,
-        team,
-        tov as to
+        abbreviation as team,
+        pts_rnk as pts_rank,
+        reb_rnk as reb_rank,
+        ast_rnk as ast_rank,
+        blk_rnk as blk_rank,
+        stl_rnk as stl_rank,
+        tov_rnk as tov_rank
     FROM {input_table}
     """
 

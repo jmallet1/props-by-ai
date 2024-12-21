@@ -1,13 +1,14 @@
 import requests
 from pyspark.sql import SparkSession
 from nba_model.utils.etl import load
+from pyspark.sql.functions import col, abs
 
 # Initialize Spark session
 spark = SparkSession.builder \
     .appName("Load JSON to Postgres") \
     .getOrCreate()
 
-api_key = "YOUR API KEY HERE"
+api_key = "7c62197633aba9836307dceefcca23ba"
 output_table = "nba.lines_stg"
 
 master_line_list = []
@@ -23,7 +24,7 @@ def api_call(api_url):
 
 def get_nba_events(): 
 
-    url = "https://api.the-odds-api.com/v4/sports/basketball_nba/events?apiKey=7c62197633aba9836307dceefcca23ba"
+    url = f"https://api.the-odds-api.com/v4/sports/basketball_nba/events?apiKey={api_key}"
     
     event_data = api_call(url)
 
@@ -110,6 +111,8 @@ if __name__ == "__main__":
     
     # convert to spark df
     df = spark.createDataFrame(master_line_list)
+
+    df = df.withColumn("abs_diff", abs(col("odds") - 1))
 
     load(df=df, table=output_table, mode="overwrite")
 
