@@ -3,25 +3,23 @@
     --central-column-width: 45%;
 }
 
-.parentContainer {
-    margin-top: 4.5rem;
+.NBAParentContainer {
     width: 100%;
     display: flex;
-    position: relative;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 .sidebar {
     min-width: var(--sidebar-width);
     position: fixed;
-    height: 65vh;
     left: calc(((100% - var(--central-column-width)) / 2) - var(--sidebar-width) - 15px);
     top: 4.5rem;
 }
 
 .middle {
     width: var(--central-column-width);
-    margin: 0px 1rem 0px 1rem;
-    height: 100%;
+    margin: 0rem 1rem 0px 1rem;
 }
 
 @media (min-width: 1024px) and (max-width: 1500px) {

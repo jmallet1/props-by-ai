@@ -1,4 +1,4 @@
-from nba_model.utils.etl import extract, load, transform_prediction_stat
+from training_ml_model.nba_model.utils.etl import extract, load, transform_prediction_stat
 from pyspark.sql import SparkSession
 
 
@@ -13,8 +13,8 @@ spark = SparkSession.builder \
     .appName("Load team season data to PostgreSQL") \
     .getOrCreate()
 
-if __name__ == "__main__":
-
+def handler():
+    
     # Only get the players who have a prop for the day in this type
     query_player_data = f"""
     SELECT

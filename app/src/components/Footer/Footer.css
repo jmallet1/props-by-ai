@@ -1,0 +1,24 @@
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    align-items: center;
+    margin: 3rem auto 0px auto;
+    flex-direction: column;
+    position: absolute;
+    height: 6rem;
+    bottom: 0px;
+}
+
+.social-media-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-media-container img{
+    width: 3rem;
+    padding: 0px 0.5rem 0px 0.5rem;
+}
+

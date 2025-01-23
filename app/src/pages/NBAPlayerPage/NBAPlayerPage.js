@@ -125,11 +125,12 @@ function NBAPlayerPage() {
     }, []);
 
     return (
-        <div className='parentContainer'>
+        <div className='NBAParentContainer'>
             <div className='sidebar'>
                 {availableProps.length > 0 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
             </div>
             <div className='middle'>
+                <div className='Test'></div>
                 <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
                 {windowWidth < 1500 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
                 <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData}/>

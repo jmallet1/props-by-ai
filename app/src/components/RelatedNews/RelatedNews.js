@@ -1,10 +1,11 @@
 import React from 'react';
 import './RelatedNews.css';
-import headshot from '../../assets/pictures/fvv.png'
 import StockUp from '../../assets/pictures/stock_up.png'
 import StockDown from '../../assets/pictures/stock_down.png'
 
 export const RelatedNews = ({highLowLines, injuries}) => {
+    const img_url = `https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png`;
+
     return (
         <div className='RelatedNewsAndOddsContainer'>
             {injuries.length > 0 && <div className='RelatedNewsContainer'>
@@ -19,7 +20,7 @@ export const RelatedNews = ({highLowLines, injuries}) => {
                                 <tr key={index} className='InjuryRow'>
                                     <td>
                                         <div className='Headshot'>
-                                            <img src={headshot} alt="head"/>
+                                            <img src={img_url} alt="head"/>
                                         </div>
                                     </td>
                                     <td className='NameAndInjuryData'>

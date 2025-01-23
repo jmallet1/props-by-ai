@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, text
 
 
 # Database connection properties
-db_url = "jdbc:postgresql://localhost:5432/postgres"
+db_url = "jdbc:postgresql://host.docker.internal:5432/postgres"
 
 db_properties = {
     "user": "postgres",
@@ -120,10 +120,10 @@ def truncate(table: str):
     input_query = f"TRUNCATE TABLE {table}"
 
     # Create a SQLAlchemy engine without the jdbc: prefix
-    engine = create_engine(f"postgresql+psycopg2://{db_properties['user']}:{db_properties['password']}@localhost:5432/postgres")
+    engine = create_engine(f"postgresql+psycopg2://{db_properties['user']}:{db_properties['password']}@host.docker.internal:5432/postgres")
 
     # Execute the truncation
     with engine.connect() as conn:
         conn.execute(text(input_query))
-        conn.commit()  # Commit to ensure truncation happens
+        # conn.commit()  # Commit to ensure truncation happens
         print(f"Truncated table: {table}")

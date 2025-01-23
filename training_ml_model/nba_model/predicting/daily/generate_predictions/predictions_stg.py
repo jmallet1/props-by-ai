@@ -1,50 +1,52 @@
-from nba_model.utils.etl import extract, load, truncate
+from training_ml_model.nba_model.utils.etl import extract, load, truncate
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.regression import RandomForestRegressionModel
 from pyspark.sql.functions import lit
 from pyspark.sql import SparkSession
 
 
-# Initialize Spark session
-spark = SparkSession.builder \
-    .appName("Load team season data to PostgreSQL") \
-    .getOrCreate()
+def handler():
 
-prop_types = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
-output_table = "predicting.predictions_stg"
+    # Initialize Spark session
+    spark = SparkSession.builder \
+        .appName("Load team season data to PostgreSQL") \
+        .getOrCreate()
 
-truncate(output_table)
+    prop_types = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
+    output_table = "predicting.predictions_stg"
 
-for prop_type in prop_types:
+    truncate(output_table)
 
-    print(f"Predicting {prop_type}")
+    for prop_type in prop_types:
 
-    input_table = f"predicting.player_{prop_type}"
-    input_query = f"SELECT * FROM {input_table}"
+        print(f"Predicting {prop_type}")
 
-    # Get the testing data
-    df = extract(input_query, spark)
+        input_table = f"predicting.player_{prop_type}"
+        input_query = f"SELECT * FROM {input_table}"
 
-    all_columns = df.columns
+        # Get the testing data
+        df = extract(input_query, spark)
 
-    # Combine feature columns into a single 'features' vector
-    non_feature_columns = ["player_id", "matchup", "label"]  # Add any non-feature columns to this list
-    feature_columns = [col for col in all_columns if col not in non_feature_columns]
+        all_columns = df.columns
 
-    assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
-    df_features = assembler.transform(df)
+        # Combine feature columns into a single 'features' vector
+        non_feature_columns = ["player_id", "matchup", "label"]  # Add any non-feature columns to this list
+        feature_columns = [col for col in all_columns if col not in non_feature_columns]
 
-    model_path = f"C:\\Users\\jakem\\wager_wiser\\training_ml_model\\nba_model\\predicting\\models\\{prop_type}_model"
-    rf_model = RandomForestRegressionModel.load(model_path)
+        assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
+        df_features = assembler.transform(df)
 
-    # Use the model to predict
-    predictions = rf_model.transform(df_features)
+        model_path = f"C:\\Users\\jakem\\wager_wiser\\training_ml_model\\nba_model\\predicting\\models\\{prop_type}_model"
+        rf_model = RandomForestRegressionModel.load(model_path)
 
-    columns_to_keep = ["player_id", "prediction", "matchup"]  # Add other columns if needed
-    predictions = predictions.select(*columns_to_keep)
+        # Use the model to predict
+        predictions = rf_model.transform(df_features)
 
-    predictions = predictions.withColumn("prop_type", lit(prop_type))
+        columns_to_keep = ["player_id", "prediction", "matchup"]  # Add other columns if needed
+        predictions = predictions.select(*columns_to_keep)
 
-    load(df=predictions, table=output_table, mode="append")
+        predictions = predictions.withColumn("prop_type", lit(prop_type))
 
-spark.stop()
+        load(df=predictions, table=output_table, mode="append")
+
+    spark.stop()
