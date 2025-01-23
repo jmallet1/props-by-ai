@@ -2,7 +2,6 @@
 React web app publishing AI predictions for daily player props
 
 ## TODO:
-1. Implement GitHub CI/CD to AWS
-2. Add architecture diagrams
-3. Add API keys via GitHub secrets
-4. Write infrastructure using IaC
+1. Configure frontend to handle players with no/partial prop lines for the day
+2. Moto testing with mock AWS resources for automatic testing in CI/CD pipeline
+3. Deploy AWS services using CloudFormation or Terraform
