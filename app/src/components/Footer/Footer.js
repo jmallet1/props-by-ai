@@ -8,8 +8,8 @@ export const Footer = () => {
   return (
     <div className="footer">
         <div className='social-media-container'>
-          <a href='https://x.com/' target="_blank"><img src={XLogo} alt='x'/></a>
-          <a href='https://instagram.com/' target="_blank"><img src={IGLogo} alt='ig'/></a>
+          <a href='https://x.com/' target="_blank" rel="noopener noreferrer"><img src={XLogo} alt='x'/></a>
+          <a href='https://instagram.com/' target="_blank" rel="noopener noreferrer"><img src={IGLogo} alt='ig'/></a>
         </div>
     </div>
   );
