@@ -10,7 +10,6 @@ output_table = "predicting.player_ast"
 
 def handler():
     
-    # Only get the players who have a prop for the day in this type
     query_player_data = f"""
     SELECT
         player_id,
@@ -27,11 +26,6 @@ def handler():
         away_flag
     FROM 
         {input_table_1}
-	WHERE player_id IN (
-		SELECT DISTINCT player_id
-		FROM {input_table_2}
-		WHERE type = 'ast'
-	)
     """
 
     query_opposition_data = f"""

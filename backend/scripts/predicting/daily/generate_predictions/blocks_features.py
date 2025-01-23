@@ -26,11 +26,6 @@ def handler():
         away_flag
     FROM 
         {input_table_1}
-	WHERE player_id IN (
-		SELECT DISTINCT player_id
-		FROM {input_table_2}
-		WHERE type = 'blk'
-	)
     """
 
     query_opposition_data = f"""
