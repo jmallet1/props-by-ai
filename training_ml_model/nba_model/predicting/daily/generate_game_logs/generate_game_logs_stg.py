@@ -1,9 +1,8 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as pysp
 from nba_api.stats.endpoints import playergamelog
-from nba_model.utils.etl import extract, load, truncate
-
-   
+from pyspark.sql.dataframe import DataFrame
+from training_ml_model.nba_model.utils.etl import extract, load, truncate
 
 # def get_daily_player_info():
 #     """Retrieves players with a sportsbook line for the day"""
@@ -39,7 +38,7 @@ from nba_model.utils.etl import extract, load, truncate
 
 
 
-def extract_from_api(player):
+def extract_from_api(player, spark):
     """Extracts this years game logs for the given player id"""
 
     # Retrieve game log dataframe
@@ -62,11 +61,14 @@ def extract_from_api(player):
     return spark_df
 
 
-if __name__ == "__main__":
+def handler():
+    # Define the path to the JAR file inside the container
+    jdbc_jar_path = "/opt/airflow/jars/postgresql-42.7.4.jar"
 
     # Initialize Spark session
     spark = SparkSession.builder \
         .appName("Load team season data to PostgreSQL") \
+        .config("spark.jars", jdbc_jar_path) \
         .getOrCreate()
 
     input_table = "predicting.lines_raw"  # Name of the input table in PostgreSQL
@@ -94,7 +96,7 @@ if __name__ == "__main__":
 
     # Call the NBA API to retrieve stats for each player
     for player in player_info:
-        data = extract_from_api(player)
+        data = extract_from_api(player, spark)
         load(df=data, table=output_table, mode="append")
 
     # Stop Spark session

@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
 from pyspark.sql.functions import col, expr, when, datediff
-from nba_model.utils.etl import extract, load
+from training_ml_model.nba_model.utils.etl import extract, load
 
 
 def transform(df: DataFrame):
@@ -32,7 +32,7 @@ def transform(df: DataFrame):
     return df
 
 
-if __name__ == "__main__":
+def handler():
 
     # Initialize Spark session
     spark = SparkSession.builder \

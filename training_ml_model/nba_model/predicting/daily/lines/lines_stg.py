@@ -1,6 +1,6 @@
 import requests
 from pyspark.sql import SparkSession
-from nba_model.utils.etl import load
+from training_ml_model.nba_model.utils.etl import load
 from pyspark.sql.functions import col, abs
 import os
 
@@ -101,8 +101,8 @@ def get_nba_props(event):
 def load_to_historic():
     return 0
 
-if __name__ == "__main__":
-
+def handler():
+    
     # Get all of the NBA games the sportsbook has (max 1 per team)
     events = get_nba_events()
 

@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
 from pyspark.sql.functions import col, round
-from nba_model.utils.etl import extract, load
+from training_ml_model.nba_model.utils.etl import extract, load
 
 
 # Initialize Spark session
@@ -21,8 +21,8 @@ def transform(df: DataFrame):
 
     return df
 
-if __name__ == "__main__":
-
+def handler():
+    
     # Get necessary team defense features
     query = f"""
     SELECT

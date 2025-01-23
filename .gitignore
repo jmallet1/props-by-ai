@@ -1,2 +1,5 @@
-
 training_ml_model/nba_model/training/data/game_logs/box_score_stats_1950_2022.csv
+backend/scripts/training/data/game_logs/box_score_stats_1950_2022.csv
+backend/postgres_data/*
+backend/logs/*
+backend/.aws/*

@@ -1,0 +1,88 @@
+services:
+  # spark-master:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile.spark
+  #   command: bin/spark-class org.apache.spark.deploy.master.Master
+  #   container_name: spark-master
+  #   environment:
+  #     - SPARK_MASTER_URL=spark://spark-master:7077
+  #   volumes:
+  #     - ./scripts:/opt/airflow/scripts
+  #   networks:
+  #     - airflow-pyspark
+  #   ports:
+  #     - "7077:7077"
+  #     - "9090:8080"
+
+  # spark-worker:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile.spark
+  #   command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+  #   environment:
+  #     SPARK_MODE: worker
+  #     SPARK_WORKER_CORES: 4
+  #     SPARK_WORKER_MEMORY: 4g
+  #     SPARK_MASTER_URL: spark://spark-master:7077
+  #   volumes:
+  #     - ./scripts:/opt/airflow/scripts
+  #   depends_on:
+  #     - spark-master
+  #   networks:
+  #     - airflow-pyspark
+
+  airflow:
+    build:
+      context: .
+      dockerfile: dockerfile.airflow
+    container_name: airflow
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: False
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/props_by_ai_db
+      AIRFLOW__WEBSERVER_BASE_URL: http://localhost:8080
+      AIRFLOW__WEBSERVER__SECRET_KEY: 46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      PYTHONPATH: "/opt/airflow"
+      AWS_CONFIG_FILE: /opt/airflow/.aws/config
+      AWS_SHARED_CREDENTIALS_FILE: /opt/airflow/.aws/credentials
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./scripts:/opt/airflow/scripts
+      - ./jars:/opt/spark/jars
+      - ./.aws:/opt/airflow/.aws
+    networks:
+      - airflow-pyspark
+    ports:
+      - "8080:8080"
+    depends_on:
+      # - spark-master
+      # - spark-worker
+      - postgres
+    command: >
+      bash -c "airflow db check &&
+      airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com &&
+      airflow scheduler &
+      airflow webserver"
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: props_by_ai_db
+    ports:
+      - "5433:5432"
+    networks:
+      - airflow-pyspark
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  airflow-pyspark:

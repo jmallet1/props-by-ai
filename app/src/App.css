@@ -8,5 +8,10 @@
     --green: #00E676;
     --red: #f44336;
     background-color: var(--dark-background);
-    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 6rem - 3.6rem);
+    position: relative;
+    padding-bottom: 6rem;
+    padding-top: 3.6rem;
 }

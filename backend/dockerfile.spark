@@ -1,0 +1,14 @@
+FROM bitnami/spark:latest
+
+# Install Python and dependencies
+USER root
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    pip3 install nba_api
+
+RUN install_packages curl
+
+# Switch back to non-root user for security
+USER 1001
+
+RUN curl https://jdbc.postgresql.org/download/postgresql-42.7.4.jar --output /opt/bitnami/spark/jars/postgresql-42.7.4.jar

@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
-from nba_model.utils.etl import extract, load
+from training_ml_model.nba_model.utils.etl import extract, load
 
 #TODO: Get any of the missing columns that are needed in dynamo db, then send to ddb with a new file. Finish up react side, host website and done
 
@@ -18,8 +18,8 @@ def transform(df: DataFrame) -> DataFrame:
 
     return df
 
-if __name__ == "__main__":
-
+def handler():
+    
     predictions_stg = "predicting.predictions_stg"
     lines_raw = "predicting.lines_raw"
     player_lkp = "nba.player_lkp"

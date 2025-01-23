@@ -3,6 +3,7 @@ import NBAPlayerPage from './pages/NBAPlayerPage/NBAPlayerPage';
 import NotFound from './pages/NotFound/NotFound';
 import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
+import Footer from './components/Footer/Footer';
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from 'react-router-dom';
 
@@ -51,6 +52,7 @@ function App() {
           <Route path="*" element={<NotFound />} caseSensitive={false} />
         </Routes>
       </div>
+      <Footer />
     </div>
   );
 }

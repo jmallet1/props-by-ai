@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
 import boto3
 from pyspark.sql.types import IntegerType, StringType
-from nba_model.utils.etl import extract
+from training_ml_model.nba_model.utils.etl import extract
 
 
 # Initialize Spark session
@@ -76,8 +76,8 @@ def load(df: DataFrame):
     # Apply the batch write function
     batch_write_to_dynamodb(df, table)
 
-if __name__ == "__main__":
-
+def handler():
+    
     query = f"""
     SELECT
         player_id,

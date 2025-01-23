@@ -1,4 +1,4 @@
-from nba_model.utils.etl import extract, load
+from training_ml_model.nba_model.utils.etl import extract, load
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, abs, row_number, when, initcap
 from pyspark.sql.window import Window
@@ -29,8 +29,8 @@ def transform(df):
 
     return df_min_max
 
-if __name__ == "__main__":
-
+def handler():
+    
     # Initialize Spark session
     spark = SparkSession.builder \
         .appName("Load team season data to PostgreSQL") \
