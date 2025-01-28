@@ -28,9 +28,12 @@ function NBAPlayerPage() {
     const [type, setType] = useState("PTS"); 
     const [seasonAvg, setSeasonAvg] = useState([]); 
     const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); 
-    const staticProps = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
     const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
     const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
+
+    const staticProps = useMemo(() => {
+        return ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']; // Example
+      }, []);
 
     useEffect(() => {
 
