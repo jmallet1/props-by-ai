@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import './NBAPlayerPage.css';
 import PlayerInfoBanner from '../../components/PlayerInfoBanner/PlayerInfoBanner';
@@ -103,7 +103,6 @@ function NBAPlayerPage() {
         setStatPerGame(playerData.matchup_avgs[type]);
         setHighLowLines(playerData.prop_lines[type]);
         setAvgLine(playerData.prop_lines.avg_lines[type]);
-        console.log(playerData.prop_lines);
         setPrediction(playerData.prop_lines[type]['prediction']);
         setType(type);
     };
