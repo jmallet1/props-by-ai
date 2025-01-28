@@ -4,13 +4,13 @@ import AIPrediction from './AIPrediction'
 import './HitRates.css';
 
 function getColor(hr, szn_avg, avg_line){
-    if(avg_line != undefined)
+    if(avg_line !== undefined)
         hr = hr.toString().replace("%","");
     if(hr === -1)
         return '#F9A825';
-    else if(hr > 50 && avg_line != undefined)
+    else if(hr > 50 && avg_line !== undefined)
         return '#4caf50';
-    else if(hr < 50 && avg_line != undefined)
+    else if(hr < 50 && avg_line !== undefined)
         return '#f44336';
     else if(hr > szn_avg && avg_line === undefined)
         return '#4caf50';
@@ -23,7 +23,7 @@ function getColor(hr, szn_avg, avg_line){
 function getNumber(hr, avgLine){
     if(hr === 'N/A' || hr === -1)
         return -1;
-    else if (avgLine != undefined)
+    else if (avgLine !== undefined)
         return hr.replace("%","");
     else
         return 100
@@ -42,7 +42,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
         let currentLabel = HRData[i][0];
         let currentPercentage = HRData[i][1];
 
-        if(avgLine != undefined)
+        if(avgLine !== undefined)
             currentPercentage += '%';
         if(HRData[i][1] === -1){
             currentPercentage = 'N/A'

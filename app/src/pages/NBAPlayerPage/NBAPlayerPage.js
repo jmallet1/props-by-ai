@@ -28,7 +28,6 @@ function NBAPlayerPage() {
     const [type, setType] = useState("PTS"); 
     const [seasonAvg, setSeasonAvg] = useState([]); 
     const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); 
-    const [availableProps, setAvailableProps] = useState([]); 
     const staticProps = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
     const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
     const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
@@ -65,7 +64,7 @@ function NBAPlayerPage() {
                 setSeasonAvg(playerData.szn_avgs);
             }
             if (playerData.hrs)
-                setHRData(playerData.hrs[staticProps[0]]); // Set barData based on fetched playerData
+                setHRData(playerData.hrs[staticProps[0]]);
 
             if (playerData.matchup_difficulty_ranks){
                 setMatchupDifficulty(playerData.matchup_difficulty_ranks.pts_rank);
@@ -84,11 +83,6 @@ function NBAPlayerPage() {
                 setPrediction(playerData.prop_lines['pts']['prediction']);
             }
 
-            if(playerData.available_props){
-                // setType(playerData.available_props[0])
-                setAvailableProps(playerData.available_props);
-            }
-
             if(playerData.injury_report)
                 setInjuries(playerData.injury_report);
 
@@ -96,7 +90,7 @@ function NBAPlayerPage() {
                 setPlayerInfo(playerData.player_info);
         }
 
-    }, [playerData]);
+    }, [playerData, staticProps]);
 
     // Function to update graph data based on button clicks
     const updateData = (type) => {
@@ -136,12 +130,12 @@ function NBAPlayerPage() {
                 <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
                 {windowWidth < 1500 && <ButtonBox availableProps={staticProps} updateData={updateData} />}
                 <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData}/>
-                {avgLine != undefined &&
+                {avgLine !== undefined &&
                     <AvgLine line={avgLine} type={type} />
                 }
                 <BarChartBox data={barData} max_value={Math.max(...barData)} avgLine={avgLine} x_labels={barLabels} />
                 <MatchupStats type={type} matchupDifficulty={matchupDifficulty} matchup={matchup} prediction={prediction} statPerGame={statPerGame.toFixed(1)}/>
-                {injuries.length != 0 || highLowLines.high_line != -1 &&
+                {(injuries.length !== 0 || highLowLines.high_line !== -1) &&
                     <RelatedNews highLowLines={highLowLines} injuries={injuries}/>
                 }               
                 <GameLog gameLog={gameLog}/>

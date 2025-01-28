@@ -8,7 +8,7 @@ const AvgLine = ({ line, type }) => {
 
     return (
         <div className='LineContainer'>
-            <img src={arrow} />
+            <img src={arrow} alt='Arrow'/>
             <h1>{line_text}</h1>
         </div>
     );

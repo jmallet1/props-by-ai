@@ -36,7 +36,7 @@ const AIPrediction = ({prediction, type, avgLine}) => {
                 <p style={{ fontSize: fontSizeType }}>{type.toUpperCase()}</p>
             </div>
             {
-                avgLine != undefined &&
+                avgLine !== undefined &&
                 <div className='decision'>
                     <img className='decisionIcon' src={predictionGraphics.icon} alt="over-under"/>
                     <p>{predictionGraphics.text}</p>
