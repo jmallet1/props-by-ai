@@ -23,7 +23,7 @@ const ButtonBox = ({ availableProps, updateData}) => {
           {type === 'ast' && 'Assists'}
           {type === 'blk' && 'Blocks'}
           {type === 'stl' && 'Steals'}
-          {type === 'to' && 'Turnovers'}
+          {type === 'tov' && 'Turnovers'}
         </button>
       ))}
     </div>

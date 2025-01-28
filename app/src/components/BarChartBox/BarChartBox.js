@@ -41,7 +41,6 @@ const BarChartBox = ({ data, max_value, avgLine, x_labels }) => {
             ],
         }
     ];
-
     const options = {
         maintainAspectRatio: false,
         responsive: true,
@@ -51,18 +50,20 @@ const BarChartBox = ({ data, max_value, avgLine, x_labels }) => {
             },
                 annotation: {
                   annotations: {
-                    line1: {
-                      type: 'line',
-                      yMin: avgLine,  // Set this to the y-value where the horizontal line should be
-                      yMax: avgLine,
-                      borderColor: 'red',
-                      borderWidth: 2,
-                      label: {
-                        content: 'Threshold',
-                        enabled: true,
-                        position: 'end',
-                      },
-                    },
+                    ...(avgLine !== undefined && {
+                        line1: {
+                        type: 'line',
+                        yMin: avgLine,  // Set this to the y-value where the horizontal line should be
+                        yMax: avgLine,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        label: {
+                            content: 'Threshold',
+                            enabled: true,
+                            position: 'end',
+                        },
+                        },
+                    })
                 },
             },
         },

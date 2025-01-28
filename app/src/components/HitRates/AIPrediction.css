@@ -1,5 +1,4 @@
 .prediction {
-    font-size: clamp(3rem, 8vw, 4.5rem);
     font-weight: 600;
     color: var(--text);
 }
@@ -44,7 +43,6 @@
 }
 
 .outputContainer p {
-    font-size:  clamp(1rem, 3vw, 2rem);
     margin: 0px 0px 0px 10px;
     padding: 0px;
     color: var(--text);

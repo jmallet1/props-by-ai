@@ -8,27 +8,28 @@ import BarChartBox from '../../components/BarChartBox/BarChartBox';
 import MatchupStats from '../../components/MatchupStats/MatchupStats';
 import GameLog from '../../components/GameLog/GameLog';
 import ButtonBox from '../../components/PropButtons/ButtonBox';
+import AvgLine from '../../components/AvgLine/AvgLine';
 
 function NBAPlayerPage() {
     // Declare a state variable to store the fetched data
     const [playerData, setPlayerData] = useState(null);
-    const [barData, setBarData] = useState([]); // Initialize barData as an empty array
-    const [HRData, setHRData] = useState([]); // Initialize barData as an empty array
-    const [barLabels, setBarLabels] = useState([]); // Initialize barData as an empty array
-    const [matchupDifficulty, setMatchupDifficulty] = useState("Loading..."); // Initialize barData as an empty array
-    const [matchup, setMatchup] = useState("..."); // Initialize barData as an empty array
-    const [statPerGame, setStatPerGame] = useState(0); // Initialize barData as an empty array
-    const [gameLog, setGameLog] = useState([]); // Initialize barData as an empty array
-    const [highLowLines, setHighLowLines] = useState('...'); // Initialize barData as an empty array
-    const [injuries, setInjuries] = useState([]); // Initialize barData as an empty array
-    const [avgLine, setAvgLine] = useState(0); // Initialize barData as an empty array
-    const [prediction, setPrediction] = useState(0); // Initialize barData as an empty array
+    const [barData, setBarData] = useState([]); 
+    const [HRData, setHRData] = useState([]); 
+    const [barLabels, setBarLabels] = useState([]); 
+    const [matchupDifficulty, setMatchupDifficulty] = useState("Loading..."); 
+    const [matchup, setMatchup] = useState("..."); 
+    const [statPerGame, setStatPerGame] = useState(0); 
+    const [gameLog, setGameLog] = useState([]); 
+    const [highLowLines, setHighLowLines] = useState('...'); 
+    const [injuries, setInjuries] = useState([]); 
+    const [avgLine, setAvgLine] = useState(0); 
+    const [prediction, setPrediction] = useState(0); 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    const [type, setType] = useState("PTS"); // Initialize barData as an empty array
-    const [seasonAvg, setSeasonAvg] = useState([]); // Initialize barData as an empty array
-    const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); // Initialize barData as an empty array
-    const [availableProps, setAvailableProps] = useState([]); // Initialize barData as an empty array
-
+    const [type, setType] = useState("PTS"); 
+    const [seasonAvg, setSeasonAvg] = useState([]); 
+    const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); 
+    const [availableProps, setAvailableProps] = useState([]); 
+    const staticProps = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
     const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
     const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
 
@@ -56,7 +57,7 @@ function NBAPlayerPage() {
         if (playerData){
 
             if (playerData.game_log_10){
-                setBarData(playerData.game_log_10[playerData.available_props[0]]); // Set barData based on fetched playerData
+                setBarData(playerData.game_log_10[staticProps[0]]); // Set barData based on fetched playerData
                 setBarLabels(playerData.game_log_10.dates);
             }
 
@@ -64,7 +65,7 @@ function NBAPlayerPage() {
                 setSeasonAvg(playerData.szn_avgs);
             }
             if (playerData.hrs)
-                setHRData(playerData.hrs[playerData.available_props[0]]); // Set barData based on fetched playerData
+                setHRData(playerData.hrs[staticProps[0]]); // Set barData based on fetched playerData
 
             if (playerData.matchup_difficulty_ranks){
                 setMatchupDifficulty(playerData.matchup_difficulty_ranks.pts_rank);
@@ -72,19 +73,19 @@ function NBAPlayerPage() {
             }
 
             if(playerData.matchup_avgs)
-                setStatPerGame(playerData.matchup_avgs[playerData.available_props[0]]);
+                setStatPerGame(playerData.matchup_avgs[staticProps[0]]);
 
             if(playerData.game_log_szn)
                 setGameLog(playerData.game_log_szn);
 
             if(playerData.prop_lines){
-                setHighLowLines(playerData.prop_lines[playerData.available_props[0]]);
-                setAvgLine(playerData.prop_lines.avg_lines[playerData.available_props[0]]);
-                setPrediction(playerData.prop_lines[playerData.available_props[0]]['prediction']);
+                setHighLowLines(playerData.prop_lines[staticProps[0]]);
+                setAvgLine(playerData.prop_lines.avg_lines[staticProps[0]]);
+                setPrediction(playerData.prop_lines['pts']['prediction']);
             }
 
             if(playerData.available_props){
-                setType(playerData.available_props[0])
+                // setType(playerData.available_props[0])
                 setAvailableProps(playerData.available_props);
             }
 
@@ -105,6 +106,7 @@ function NBAPlayerPage() {
         setStatPerGame(playerData.matchup_avgs[type]);
         setHighLowLines(playerData.prop_lines[type]);
         setAvgLine(playerData.prop_lines.avg_lines[type]);
+        console.log(playerData.prop_lines);
         setPrediction(playerData.prop_lines[type]['prediction']);
         setType(type);
     };
@@ -127,16 +129,21 @@ function NBAPlayerPage() {
     return (
         <div className='NBAParentContainer'>
             <div className='sidebar'>
-                {availableProps.length > 0 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
+                <ButtonBox availableProps={staticProps} updateData={updateData} />
             </div>
             <div className='middle'>
                 <div className='Test'></div>
                 <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
-                {windowWidth < 1500 && <ButtonBox availableProps={availableProps} updateData={updateData} />}
+                {windowWidth < 1500 && <ButtonBox availableProps={staticProps} updateData={updateData} />}
                 <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData}/>
+                {avgLine != undefined &&
+                    <AvgLine line={avgLine} type={type} />
+                }
                 <BarChartBox data={barData} max_value={Math.max(...barData)} avgLine={avgLine} x_labels={barLabels} />
-                <MatchupStats type={type} matchupDifficulty={matchupDifficulty} matchup={matchup} avgLine={avgLine} statPerGame={statPerGame.toFixed(1)}/>
-                <RelatedNews highLowLines={highLowLines} injuries={injuries}/>
+                <MatchupStats type={type} matchupDifficulty={matchupDifficulty} matchup={matchup} prediction={prediction} statPerGame={statPerGame.toFixed(1)}/>
+                {injuries.length != 0 || highLowLines.high_line != -1 &&
+                    <RelatedNews highLowLines={highLowLines} injuries={injuries}/>
+                }               
                 <GameLog gameLog={gameLog}/>
             </div>
         </div>

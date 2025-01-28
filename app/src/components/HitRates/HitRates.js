@@ -3,22 +3,30 @@ import React from 'react';
 import AIPrediction from './AIPrediction'
 import './HitRates.css';
 
-function getColor(hr){
-    if(hr > 50)
-        return '#4caf50';
-    else if(hr === -1)
+function getColor(hr, szn_avg, avg_line){
+    if(avg_line != undefined)
+        hr = hr.toString().replace("%","");
+    if(hr === -1)
         return '#F9A825';
-    else if(hr < 50)
+    else if(hr > 50 && avg_line != undefined)
+        return '#4caf50';
+    else if(hr < 50 && avg_line != undefined)
         return '#f44336';
+    else if(hr > szn_avg && avg_line === undefined)
+        return '#4caf50';
+    else if(hr < szn_avg && avg_line === undefined)
+        return '#f44336';    
     else
         return '#F9A825';
 }
 
-function getNumber(hr){
+function getNumber(hr, avgLine){
     if(hr === 'N/A' || hr === -1)
         return -1;
-    else
+    else if (avgLine != undefined)
         return hr.replace("%","");
+    else
+        return 100
 }
 
 
@@ -30,8 +38,12 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
     let szn_hr = -1;
 
     for(let i=0; i < HRData.length; i++){
+        
         let currentLabel = HRData[i][0];
-        let currentPercentage = HRData[i][1] + '%';
+        let currentPercentage = HRData[i][1];
+
+        if(avgLine != undefined)
+            currentPercentage += '%';
         if(HRData[i][1] === -1){
             currentPercentage = 'N/A'
         }
@@ -46,11 +58,10 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
         }
     }
 
-    const h2h_number = getNumber(h2h_hr);
-    const l5_number = getNumber(l5_hr);
-    const l20_number = getNumber(l20_hr);
-    const szn_number = getNumber(szn_hr);
-
+    let h2h_number = getNumber(h2h_hr, avgLine);
+    let l5_number = getNumber(l5_hr, avgLine);
+    let l20_number = getNumber(l20_hr, avgLine);
+    let szn_number = getNumber(szn_hr, avgLine);
 
     return (
         <div className='HRContainer'>
@@ -58,34 +69,34 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
                 <AIPrediction prediction={prediction} type={type} avgLine={avgLine} />
             </div>
             <div className='hr'>
-                <div className='initialColor' style={{ backgroundColor: getColor(h2h_number)}}></div>
+                <div className='initialColor' style={{ backgroundColor: getColor(h2h_hr, szn_hr, avgLine)}}></div>
                 <div className='label'>H2H</div>
                 <div className='bar'>
-                    <div className='percentage' style={{ width: `${h2h_number === -1 ? 100 : h2h_number}%`, backgroundColor: getColor(h2h_number)}}></div>
+                    <div className='percentage' style={{ width: `${h2h_number === -1 ? 100 : h2h_number}%`, backgroundColor: getColor(h2h_hr, szn_hr, avgLine)}}></div>
                 </div>
                 <div className='percentageText'>{h2h_hr}</div>
             </div>
             <div className='hr'>
-                <div className='initialColor' style={{ backgroundColor: getColor(l5_number)}}></div>
+                <div className='initialColor' style={{ backgroundColor: getColor(l5_hr, szn_hr, avgLine)}}></div>
                 <div className="label">L5</div>
                 <div className='bar'>
-                    <div className='percentage' style={{ width: `${l5_number}%`, backgroundColor: getColor(l5_number)}}></div>
+                    <div className='percentage' style={{ width: `${l5_number === -1 ? 100 : l5_number}%`, backgroundColor: getColor(l5_hr, szn_hr, avgLine)}}></div>
                 </div>
                 <div className='percentageText'>{l5_hr}</div>
             </div>
             <div className='hr'>
-                <div className='initialColor' style={{ backgroundColor: getColor(l20_number)}}></div>
+                <div className='initialColor' style={{ backgroundColor: getColor(l20_hr, szn_hr, avgLine)}}></div>
                 <div className='label'>L20</div>
                 <div className='bar'>
-                    <div className='percentage'  style={{ width: `${l20_number === -1 ? 100 : l20_number}%`, backgroundColor: getColor(l20_number)}}></div>
+                    <div className='percentage'  style={{ width: `${l20_number === -1 ? 100 : l20_number}%`, backgroundColor: getColor(l20_hr, szn_hr, avgLine)}}></div>
                 </div>
                 <div className='percentageText'>{l20_hr}</div>
             </div>
             <div className='hr'>
-                <div className='initialColor' style={{ backgroundColor: getColor(szn_number)}}></div>
+                <div className='initialColor' style={{ backgroundColor: getColor(szn_hr, szn_hr, avgLine)}}></div>
                 <div className='label'>SZN</div>
                 <div className='bar'>
-                    <div className='percentage'  style={{ width: `${szn_number}%`, backgroundColor: getColor(szn_number)}}></div>
+                    <div className='percentage'  style={{ width: `${szn_number}%`, backgroundColor: getColor(szn_hr, szn_hr, avgLine)}}></div>
                 </div>
                 <div className='percentageText'>{szn_hr}</div>
             </div>

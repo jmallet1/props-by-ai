@@ -29,8 +29,6 @@ def extract_from_api(player_id):
             # game_log['away_team_abbr'] = next_game_df['VISITOR_TEAM_ABBREVIATION'].iloc[0]
             # # spark_df = spark_df.withColumn("away_team_abbr", pysp.lit(away_team_abbr))
 
-            print(f"Loaded player id: {player_id}")
-
             return game_log
         except requests.exceptions.ReadTimeout:
             if retries is 2:

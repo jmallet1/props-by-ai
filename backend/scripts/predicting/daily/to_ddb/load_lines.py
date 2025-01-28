@@ -78,7 +78,7 @@ def handler():
         player_name,
         team,
         prop_type,
-        TO_CHAR(date, 'YYYYMMDD') as date,
+        TO_CHAR(date::DATE, 'YYYYMMDD') as date,
         matchup,
         ROUND(prediction::NUMERIC, 1)::DECIMAL as prediction,
         high_line::DECIMAL,

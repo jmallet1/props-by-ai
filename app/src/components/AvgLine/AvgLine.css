@@ -1,0 +1,28 @@
+.LineContainer {
+    color: var(--text);
+    background-color: var(--accent);
+    border-radius: 10px;
+    height: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    width: 100%;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.LineContainer h1 {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.LineContainer img {
+    max-height: 50%;
+    margin-left: 5px;
+}
+
+@media (max-width: 450) {
+    .bar {
+        width: 40%;
+        height: 0.6rem;
+    }
+}

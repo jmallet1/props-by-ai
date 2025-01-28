@@ -18,18 +18,30 @@ function getIcon(pred, line){
 const AIPrediction = ({prediction, type, avgLine}) => {
 
     const predictionGraphics = getIcon(prediction, avgLine);
+    let fontSizePrediction;
+    let fontSizeType;
+    if(avgLine === undefined){
+        fontSizePrediction = "clamp(4rem, 12vw, 6.5rem)";
+        fontSizeType =  "clamp(1rem, 5vw, 3rem)";
+    } else {
+        fontSizePrediction = "clamp(3rem, 8vw, 4.5rem)";
+        fontSizeType =  "clamp(1rem, 3vw, 2rem)";
+    }
 
     return (
         <div className='predictionContainer'>
             <h3 className='title'>AI Prediction</h3>
             <div className='outputContainer'>
-                <h1 className='prediction'>{prediction}</h1>
-                <p>{type.toUpperCase()}</p>
+                <h1 className='prediction' style={{ fontSize: fontSizePrediction }}>{prediction}</h1>
+                <p style={{ fontSize: fontSizeType }}>{type.toUpperCase()}</p>
             </div>
-            <div className='decision'>
-                <img className='decisionIcon' src={predictionGraphics.icon} alt="over-under"/>
-                <p>{predictionGraphics.text}</p>
-            </div>
+            {
+                avgLine != undefined &&
+                <div className='decision'>
+                    <img className='decisionIcon' src={predictionGraphics.icon} alt="over-under"/>
+                    <p>{predictionGraphics.text}</p>
+                </div>
+            }
             <div className='logoIconContainer'>
                 <img src={logo} className='logoIcon' alt="pba-logo"/>
             </div>
