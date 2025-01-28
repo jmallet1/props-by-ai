@@ -1,4 +1,5 @@
 from pyspark.sql.dataframe import DataFrame
+from pyspark.sql.functions import col, trim
 from scripts.utils.etl import extract, load, create_spark_session
 
 
@@ -15,6 +16,7 @@ def handler():
     predictions_stg = "predicting.predictions_stg"
     lines_raw = "predicting.lines_raw"
     player_lkp = "nba.player_lkp"
+    next_games = "predicting.next_games"
 
     predictions_query = f"""
     SELECT 
@@ -22,19 +24,21 @@ def handler():
         predictions.prediction,
         predictions.matchup,
         predictions.prop_type,
-        lkp.team
+        lkp.player_name,
+        lkp.team,
+        next_games.next_game as "date"
     FROM 
         {predictions_stg} predictions
     LEFT JOIN {player_lkp} lkp 
         ON predictions.player_id = lkp.player_id
+    LEFT JOIN {next_games} next_games
+        ON lkp.team = next_games.team
     """
 
     # Retrieve the high line for each player and type of prop
     high_lines_query = f"""
     SELECT 
         player_id as high_pid,
-        player_name,
-        date,
         type as high_type,
         line as high_line,
         sportsbook_name as high_sportsbook,
@@ -86,6 +90,8 @@ def handler():
     predictions = extract(query=predictions_query, spark=spark)
     high_lines = extract(query=high_lines_query, spark=spark)
     low_lines = extract(query=low_lines_query, spark=spark)
+
+    predictions = predictions.filter((col("team").isNotNull()) & (trim(col("team")) != ""))
 
     df = predictions.join(high_lines, (predictions.player_id == high_lines.high_pid) & (predictions.prop_type == high_lines.high_type), "left") \
                     .join(low_lines, (predictions.player_id == low_lines.low_pid) & (predictions.prop_type == low_lines.low_type), "left")

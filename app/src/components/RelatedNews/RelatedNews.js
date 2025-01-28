@@ -40,24 +40,26 @@ export const RelatedNews = ({highLowLines, injuries}) => {
                     </table>
                 </div>
             </div>}
-            <div className='OddsMasterContainer'>
-                <div className='OddsOverContainer'>
-                    <h3 className='OddsTitle'>Highest Line</h3>
-                    <img className='StockImage' src={StockUp} alt='high-line'/>
-                    <div className='OddsText'>
-                        <h1>{highLowLines.high_line}</h1>
-                        <a href='https://www.draftkings.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.high_line_sportsbook}</h3></a>
+            {highLowLines.high_line !== -1 && (
+                <div className='OddsMasterContainer'>
+                    <div className='OddsOverContainer'>
+                        <h3 className='OddsTitle'>Highest Line</h3>
+                        <img className='StockImage' src={StockUp} alt='high-line'/>
+                        <div className='OddsText'>
+                            <h1>{highLowLines.high_line}</h1>
+                            <a href='https://www.draftkings.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.high_line_sportsbook}</h3></a>
+                        </div>
+                    </div>
+                    <div className='OddsUnderContainer'>
+                        <h3 className='OddsTitle'>Lowest Line</h3>
+                        <img className='StockImage' src={StockDown} alt='low-line'/>
+                        <div className='OddsText'>
+                            <h1>{highLowLines.low_line}</h1>
+                            <a href='https://www.fanduel.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.low_line_sportsbook}</h3></a>
+                        </div>
                     </div>
                 </div>
-                <div className='OddsUnderContainer'>
-                    <h3 className='OddsTitle'>Lowest Line</h3>
-                    <img className='StockImage' src={StockDown} alt='low-line'/>
-                    <div className='OddsText'>
-                        <h1>{highLowLines.low_line}</h1>
-                        <a href='https://www.fanduel.com' target="_blank" rel="noopener noreferrer"><h3>{highLowLines.low_line_sportsbook}</h3></a>
-                    </div>
-                </div>
-            </div>
+            )}
         </div>
     );
 };

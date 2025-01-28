@@ -11,7 +11,7 @@ def handler():
     prop_types = ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']
     output_table = "predicting.predictions_stg"
 
-    # truncate(output_table)
+    truncate(output_table)
 
     for prop_type in prop_types:
 
@@ -43,6 +43,6 @@ def handler():
 
         predictions = predictions.withColumn("prop_type", lit(prop_type))
 
-        load(df=predictions, table=output_table, mode="overwrite")
+        load(df=predictions, table=output_table, mode="append")
 
     spark.stop()

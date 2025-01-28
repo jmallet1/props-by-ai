@@ -88,7 +88,7 @@ def handler():
         reb,
         stl,
         team,
-        tov as to
+        tov
     FROM {input_table}
     """
 
