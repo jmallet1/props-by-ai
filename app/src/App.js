@@ -40,6 +40,9 @@ function App() {
       default:
         document.body.style.backgroundColor = "#121212";
     }
+
+    // Scroll to top when the route changes
+    window.scrollTo(0, 0);
   }, [location]);
 
   return (
