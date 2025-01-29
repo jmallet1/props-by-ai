@@ -13,3 +13,19 @@
     padding: 0px;
     margin: 0px;
 }
+
+@media (max-width: 800px) {
+    .HomeLogo {
+        width: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .HomeLogo {
+        width: 225px;
+    }
+
+    .big {
+        gap: 25px;
+    }
+}

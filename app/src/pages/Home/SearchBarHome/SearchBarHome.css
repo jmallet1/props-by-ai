@@ -91,3 +91,24 @@
   font-family: 'Lato';
 }
 
+@media (max-width: 800px) {
+  .search-box-home {
+      width: 450px;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-box-home {
+      width: 300px;
+  }
+
+  .search-input-home {
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 20px;    
+  }
+
+  .search-icon-home {
+    right: 15px;
+  }
+}
