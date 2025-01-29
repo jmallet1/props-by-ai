@@ -13,6 +13,7 @@
     position: relative;
     width: 600px;
     font-family: 'Lato';
+    font-size: 16px;
 }
 
 .search-input-home:hover {
@@ -104,7 +105,6 @@
 
   .search-input-home {
     padding: 10px;
-    font-size: 16px;
     border-radius: 20px;    
   }
 
