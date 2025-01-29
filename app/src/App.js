@@ -44,7 +44,7 @@ function App() {
 
   return (
     <div className='root'>
-      <NavBar playerList={playerList} />
+      {location.pathname !== "/" && <NavBar playerList={playerList} /> }
       <div className="ContentWrapper">
         <Routes>
           <Route path="/" element={<Home playerList={playerList} />} caseSensitive={false} />
