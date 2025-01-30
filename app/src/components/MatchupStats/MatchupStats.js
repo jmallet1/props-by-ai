@@ -8,8 +8,6 @@ const ButtonsAndGraphs = ({ type, matchupDifficulty, matchup, prediction, statPe
     const matchup_rank = matchupDifficulty.slice(0, -2);
     const matchup_rank_league_diff = 30 - matchup_rank;
 
-    console.log(statPerGame);
-
     return (
         <div className='DonutContainer'>
             <div className='ModernDonut'>
