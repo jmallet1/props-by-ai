@@ -37,10 +37,11 @@ jobs:
         SOURCE_DIR: ./app/build
 
     - name: Invalidate CloudFront Cache
-      uses: jakejarvis/aws-cloudfront-invalidate-action@v1
-      with:
-        distribution-id: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
-        paths: "/*"
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-2  # or your specific region
