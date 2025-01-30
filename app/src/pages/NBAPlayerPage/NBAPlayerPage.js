@@ -9,6 +9,7 @@ import MatchupStats from '../../components/MatchupStats/MatchupStats';
 import GameLog from '../../components/GameLog/GameLog';
 import ButtonBox from '../../components/PropButtons/ButtonBox';
 import AvgLine from '../../components/AvgLine/AvgLine';
+import EmailPopUp from '../../components/EmailPopUp/EmailPopUp';
 
 function NBAPlayerPage() {
     // Declare a state variable to store the fetched data
@@ -128,6 +129,7 @@ function NBAPlayerPage() {
                 <ButtonBox availableProps={staticProps} updateData={updateData} />
             </div>
             <div className='middle'>
+                <EmailPopUp />
                 <div className='Test'></div>
                 <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
                 {windowWidth < 1500 && <ButtonBox availableProps={staticProps} updateData={updateData} />}
