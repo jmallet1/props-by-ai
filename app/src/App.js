@@ -17,7 +17,7 @@ function App() {
         
     try {
       // Call API to get player ids and names
-      const response = await fetch(`https://l4b9qcolhk.execute-api.us-east-2.amazonaws.com/dev/players_with_props`);
+      const response = await fetch(process.env.REACT_APP_search_api);
       const data = await response.json();
         
       // Set the fetched data in the state
@@ -29,6 +29,22 @@ function App() {
 
   useEffect(() => {
       fetchData(); // Call fetchData when the component mounts
+  }, []);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+      // Function to update state when the window is resized
+      const handleResize = () => {
+          setWindowWidth(window.innerWidth);
+      };
+
+      // Add event listener to track window resize
+      window.addEventListener('resize', handleResize);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
   }, []);
 
   useEffect(() => {
@@ -47,11 +63,11 @@ function App() {
 
   return (
     <div className='root'>
-      {location.pathname !== "/" && <NavBar playerList={playerList} /> }
+      {location.pathname !== "/" && <NavBar playerList={playerList} windowWidth={windowWidth}/> }
       <div className="ContentWrapper">
         <Routes>
           <Route path="/" element={<Home playerList={playerList} />} caseSensitive={false} />
-          <Route path="/player/:playerId" element={<NBAPlayerPage />} caseSensitive={false} />
+          <Route path="/player/:playerId" element={<NBAPlayerPage windowWidth={windowWidth}/>} caseSensitive={false} />
           <Route path="*" element={<NotFound />} caseSensitive={false} />
         </Routes>
       </div>

@@ -4,3 +4,6 @@ backend/postgres_data/*
 backend/logs/*
 backend/.aws/*
 __pycache__/
+app/node_modules
+app/build
+

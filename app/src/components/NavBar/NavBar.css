@@ -1,6 +1,7 @@
 .navbar {
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #651fff;
     padding: 0.3rem 0rem 0.3em 0rem;
     width: 100%;
@@ -19,23 +20,38 @@
   .navbar-center {
     width: 30%;
     min-width: 25rem;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
   }
   
   .brand-logo {
-    margin-left: 2rem;
+    position: absolute;
+    left: 20px;
   }
 
   .brand-logo img {
     width: 2.5rem;
   }
 
+  .LoginNavContainer {
+    position: absolute;
+    right: 20px;
+  }
+
   @media (max-width: 768px) {
     .navbar-center {
-        width: 60%;
+        width: 50%;
         min-width: 0rem;
+    }
+
+    .brand-logo {
+      left: 0.5rem;
+    }
+
+    .brand-logo img {
+      width: 2rem;
+    }
+
+    .LoginNavContainer {
+      right: 0.5rem;
     }
   }
 

@@ -4,14 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from "react-oidc-context";
 
+const cognitoAuthConfig = {
+  authority: process.env.REACT_APP_authority,
+  client_id: process.env.REACT_APP_client_id,
+  redirect_uri: process.env.REACT_APP_redirect_uri,
+  response_type: "code",
+  scope: process.env.REACT_APP_scope,
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <AuthProvider {...cognitoAuthConfig}>
+      <Router>
+        <App />
+      </Router>
+    </AuthProvider>
   </React.StrictMode>
 );
 
