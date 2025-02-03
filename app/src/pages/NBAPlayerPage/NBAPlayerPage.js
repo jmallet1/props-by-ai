@@ -11,7 +11,7 @@ import ButtonBox from '../../components/PropButtons/ButtonBox';
 import AvgLine from '../../components/AvgLine/AvgLine';
 import EmailPopUp from '../../components/EmailPopUp/EmailPopUp';
 
-function NBAPlayerPage() {
+function NBAPlayerPage({windowWidth}) {
     // Declare a state variable to store the fetched data
     const [playerData, setPlayerData] = useState(null);
     const [barData, setBarData] = useState([]); 
@@ -25,15 +25,15 @@ function NBAPlayerPage() {
     const [injuries, setInjuries] = useState([]); 
     const [avgLine, setAvgLine] = useState(0); 
     const [prediction, setPrediction] = useState(0); 
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [type, setType] = useState("PTS"); 
     const [seasonAvg, setSeasonAvg] = useState([]); 
+    const [propDate, setPropDate] = useState(''); 
     const [playerInfo, setPlayerInfo] = useState({"player_name": "loading "}); 
     const { playerId } = useParams(); // Extracts the "id" from the URL and cleans ID
     const playerIdCleaned = playerId.replace(/\s+/g, '-').toLowerCase();
 
     const staticProps = useMemo(() => {
-        return ['pts', 'reb', 'ast', 'stl', 'blk', 'tov']; // Example
+        return ['pts', 'reb', 'ast', 'stl', 'blk', 'tov'];
       }, []);
 
     useEffect(() => {
@@ -85,6 +85,7 @@ function NBAPlayerPage() {
                 setHighLowLines(playerData.prop_lines[staticProps[0]]);
                 setAvgLine(playerData.prop_lines.avg_lines[staticProps[0]]);
                 setPrediction(playerData.prop_lines['pts']['prediction']);
+                setPropDate(playerData.prop_lines['pts']['date'])
             }
 
             if(playerData.injury_report)
@@ -108,21 +109,6 @@ function NBAPlayerPage() {
         setType(type);
     };
 
-    useEffect(() => {
-        // Function to update state when the window is resized
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
-
-        // Add event listener to track window resize
-        window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     return (
         <div className='NBAParentContainer'>
             <div className='sidebar'>
@@ -130,10 +116,9 @@ function NBAPlayerPage() {
             </div>
             <div className='middle'>
                 <EmailPopUp />
-                <div className='Test'></div>
                 <PlayerInfoBanner matchup={matchup} playerInfo={playerInfo} seasonAvg={seasonAvg} playerId={playerId} />
                 {windowWidth < 1500 && <ButtonBox availableProps={staticProps} updateData={updateData} />}
-                <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData}/>
+                <HitRates prediction={prediction} avgLine={avgLine} type={type} HRData={HRData} propDate={propDate} windowWidth={windowWidth}/>
                 {avgLine !== undefined &&
                     <AvgLine line={avgLine} type={type} />
                 }

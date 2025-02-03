@@ -30,7 +30,7 @@ function getNumber(hr, avgLine){
 }
 
 
-const HitRates = ({prediction, avgLine, type, HRData}) => {
+const HitRates = ({prediction, avgLine, type, HRData, propDate, windowWidth}) => {
 
     let h2h_hr = -1;
     let l5_hr = -1;
@@ -66,7 +66,7 @@ const HitRates = ({prediction, avgLine, type, HRData}) => {
     return (
         <div className='HRContainer'>
             <div className='aiPrediction'>
-                <AIPrediction prediction={prediction} type={type} avgLine={avgLine} />
+                <AIPrediction prediction={prediction} type={type} avgLine={avgLine} propDate={propDate} windowWidth={windowWidth}/>
             </div>
             <div className='hr'>
                 <div className='initialColor' style={{ backgroundColor: getColor(h2h_hr, szn_hr, avgLine)}}></div>
