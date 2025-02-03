@@ -9,16 +9,14 @@ function LoginButtons({windowWidth}) {
     loginText = (<>Login<div className="loginLineBreak"></div>Sign Up</>)
   }
 
-  
-
   const auth = useAuth();
 
-  const signOutRedirect = () => {
-    const clientId = "5dk9qpkaq65u3uekde46kmsvt1";
-    const logoutUri = "<logout uri>";
-    const cognitoDomain = "https://us-east-27o6rrv5ex.auth.us-east-2.amazoncognito.com";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-  };
+  // const signOutRedirect = () => {
+  //   const clientId = "5dk9qpkaq65u3uekde46kmsvt1";
+  //   const logoutUri = "<logout uri>";
+  //   const cognitoDomain = "https://us-east-27o6rrv5ex.auth.us-east-2.amazoncognito.com";
+  //   window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  // };
 
   if (auth.isLoading) {
     return <div className="LoginButtonContainer"></div>;
