@@ -3,7 +3,6 @@ import { useAuth } from "react-oidc-context";
 import "./EmailPopUp.css"; // Import CSS for styling
 
 const EmailPopup = () => {
-  const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const auth = useAuth();
@@ -21,15 +20,13 @@ const EmailPopup = () => {
       // Cleanup the timeout if the component is unmounted before the timeout completes
       return () => clearTimeout(timeoutId);
     }
-  }, []);
+  }, [auth.isAuthenticated]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     try {
-
       localStorage.setItem("subscribed", "true"); // Prevent popup from showing again
       setIsOpen(false); // Close popup after submission
+      auth.signinRedirect();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -42,7 +39,7 @@ const EmailPopup = () => {
       <div className="popup-content">
         <h2>Subscribe</h2>
         <p>Join the 10,000+ receiving free, daily AI prop picks!</p>
-        <button className="popUpSignUpButton" onClick={() => auth.signinRedirect()}>Login or Sign Up Now</button>
+        <button className="popUpSignUpButton" onClick={handleSubmit}>Login or Sign Up Now</button>
         <button className="close-btn" onClick={() => setIsOpen(false)}>Close</button>
       </div>
     </div>
