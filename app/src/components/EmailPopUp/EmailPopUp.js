@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "react-oidc-context";
 import "./EmailPopUp.css"; // Import CSS for styling
 
 const EmailPopup = () => {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
+  const auth = useAuth();
+
   useEffect(() => {
     const hasSubscribed = localStorage.getItem("subscribed");
 
     // Only show the popup if the user hasn't subscribed yet
-    if (!hasSubscribed) {
+    if (!auth.isAuthenticated && !hasSubscribed) {
       // Set a timeout to show the popup after 2 seconds
       const timeoutId = setTimeout(() => {
         setIsOpen(true);
@@ -24,18 +27,11 @@ const EmailPopup = () => {
     e.preventDefault();
 
     try {
-      await fetch("https://0h6oy409mb.execute-api.us-east-2.amazonaws.com/prod/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
 
       localStorage.setItem("subscribed", "true"); // Prevent popup from showing again
       setIsOpen(false); // Close popup after submission
     } catch (error) {
-      console.error("Error submitting email:", error);
+      console.error("Error:", error);
     }
   };
 
@@ -45,17 +41,8 @@ const EmailPopup = () => {
     <div className="popup-overlay">
       <div className="popup-content">
         <h2>Subscribe</h2>
-        <p>Join the 10,000+ receiving free, daily AI prop picks</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <button type="submit" className="submit-btn">Subscribe</button>
-        </form>
+        <p>Join the 10,000+ receiving free, daily AI prop picks!</p>
+        <button className="popUpSignUpButton" onClick={() => auth.signinRedirect()}>Login or Sign Up Now</button>
         <button className="close-btn" onClick={() => setIsOpen(false)}>Close</button>
       </div>
     </div>

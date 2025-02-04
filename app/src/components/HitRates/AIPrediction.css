@@ -97,6 +97,10 @@
     cursor: pointer;
 }
 
+.loginMessage:hover {
+    background: rgba(0, 0, 0, 0.85); /* Slight background for contrast */
+}
+
 
 @media (max-width: 414px) {
     .logoIconContainer {

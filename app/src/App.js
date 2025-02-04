@@ -71,7 +71,7 @@ function App() {
           <Route path="*" element={<NotFound />} caseSensitive={false} />
         </Routes>
       </div>
-      <Footer />
+      {location.pathname !== "/" && <Footer />}
     </div>
   );
 }
