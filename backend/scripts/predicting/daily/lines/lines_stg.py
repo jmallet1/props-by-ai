@@ -6,7 +6,7 @@ import os
 
 api_key = os.getenv('ODDS_API_KEY')
 output_table = "predicting.lines_stg"
-api_key = "7c62197633aba9836307dceefcca23ba"
+api_key = "<your key here>"
 
 master_line_list = []
 
